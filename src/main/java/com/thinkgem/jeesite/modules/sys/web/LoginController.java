@@ -69,12 +69,12 @@ public class LoginController extends BaseController{
 			return "redirect:" + adminPath;
 		}
 //		String view;
-//		view = "/WEB-INF/views/modules/sys/sysLogin1.jsp";
+//		view = "/WEB-INF/views/modules/sys/sysLogin.jsp";
 //		view = "classpath:";
 //		view += "jar:file:/D:/GitHub/jeesite/src/main/webapp/WEB-INF/lib/jeesite.jar!";
 //		view += "/"+getClass().getName().replaceAll("\\.", "/").replace(getClass().getSimpleName(), "")+"view/sysLogin";
 //		view += ".jsp";
-		return "modules/sys/sysLogin1";
+		return "modules/sys/sysLogin";
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class LoginController extends BaseController{
 	        return renderString(response, model);
 		}
 		
-		return "modules/sys/sysLogin1";
+		return "modules/sys/sysLogin";
 	}
 
 	/**
