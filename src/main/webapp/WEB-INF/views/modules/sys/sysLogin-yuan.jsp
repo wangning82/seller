@@ -3,15 +3,10 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>${fns:getConfig('productName')}</title>
+	<title>${fns:getConfig('productName')} 登录</title>
 	<meta name="decorator" content="blank"/>
-    <script src="/CabinetMS/static/jquery/jquery-1.8.3.min.js" type="text/javascript"></script>
-    <link href="${ctxStatic}/bootstrap/2.3.1/css_cerulean/index.css" type="text/css" rel="stylesheet" />
-      <c:if test="${tabmode eq '1'}"></c:if>
-	<link rel="Stylesheet" href="${ctxStatic}/jerichotab/css/jquery.jerichotab.css" />
-
 	<style type="text/css">
-		html,body,table{text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
+      html,body,table{background-color:#f5f5f5;width:100%;text-align:center;}.form-signin-heading{font-family:Helvetica, Georgia, Arial, sans-serif, 黑体;font-size:36px;margin-bottom:20px;color:#0663a2;}
       .form-signin{position:relative;text-align:left;width:300px;padding:40px 29px 29px;margin:0 auto 20px;background-color:#fff;border:1px solid #e5e5e5;
         	-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-box-shadow:0 1px 2px rgba(0,0,0,.05);-moz-box-shadow:0 1px 2px rgba(0,0,0,.05);box-shadow:0 1px 2px rgba(0,0,0,.05);}
       .form-signin .checkbox{margin-bottom:10px;color:#0663a2;} .form-signin .input-label{font-size:16px;line-height:23px;color:#999;}
@@ -45,45 +40,37 @@
 	</script>
 </head>
 <body >
-<div class="dgs11"  style=" height: 100%">
-	<img src="${ctxStatic}/cabinet/images/bz.png" align="left">
+
 	<!--[if lte IE 6]><br/><div class='alert alert-block' style="text-align:left;padding-bottom:10px;"><a class="close" data-dismiss="alert">x</a><h4>温馨提示：</h4><p>你使用的浏览器版本过低。为了获得更好的浏览体验，我们强烈建议您 <a href="http://browsehappy.com" target="_blank">升级</a> 到最新版本的IE浏览器，或者使用较新版本的 Chrome、Firefox、Safari 等。</p></div><![endif]-->
 	<div class="header">
-		<div id="messageBox" class="alert alert-error ${empty message ? 'hide' : ''}" ><button data-dismiss="alert" class="close">×</button>
+		<div id="messageBox" class="alert alert-error ${empty message ? 'hide' : ''}"><button data-dismiss="alert" class="close">×</button>
 			<label id="loginError" class="error">${message}</label>
 		</div>
 	</div>
-	<%--<h1 class="form-signin-heading">${fns:getConfig('productName')}</h1>--%>
-    <div class="dgs12" >
-   <div class="denglu_s" style=" padding-top:220px;">
-	<form  id="loginForm" class=" " action="${ctx}/login" method="post">
-		
-		<div class="noankuan ">
-			<div class="denglu_ss1"></div>
-			<input  style="background:#0975D0; border:0px; line-height:35px; color:#FFFFFF;"  type="text" id="username" name="username" class="input-block-level required shukuan" placeholder="请输入用户名" value="${username}">
+	<h1 class="form-signin-heading">${fns:getConfig('productName')}</h1>
+	<form style="background: url(/GrowTogether/static/growtogether/images/login_kuang.jpg);background-size: cover" id="loginForm" class="form-signin" action="${ctx}/login" method="post">
+		<label class="input-label" for="username">登录名</label>
+		<input type="text" id="username" name="username" class="input-block-level required" value="${username}">
+		<label class="input-label" for="password">密码</label>
+		<input type="password" id="password" name="password" class="input-block-level required">
+		<c:if test="${isValidateCodeLogin}"><div class="validateCode">
+			<label class="input-label mid" for="validateCode">验证码</label>
+			<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
+		</div></c:if><%--
+		<label for="mobile" title="手机登录"><input type="checkbox" id="mobileLogin" name="mobileLogin" ${mobileLogin ? 'checked' : ''}/></label> --%>
+		<input class="btn btn-large btn-primary" type="submit" value="登 录"/>&nbsp;&nbsp;
+		<label for="rememberMe" title="下次不需要再登录"><input type="checkbox" id="rememberMe" name="rememberMe" ${rememberMe ? 'checked' : ''}/> 记住我（公共场所慎用）</label>
+		<div id="themeSwitch" class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">${fns:getDictLabel(cookie.theme.value,'theme','默认主题')}<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+			  <c:forEach items="${fns:getDictList('theme')}" var="dict"><li><a href="#" onclick="location='${pageContext.request.contextPath}/theme/${dict.value}?url='+location.href">${dict.label}</a></li></c:forEach>
+			</ul>
+			<!--[if lte IE 6]><script type="text/javascript">$('#themeSwitch').hide();</script><![endif]-->
 		</div>
-	
-			<div style="margin-top:13px;" class="noankuan ">
-				<div class="denglu_ss"></div>
-				<input style="background:#0975D0; border:0px; line-height:35px; color:#FFFFFF;"   type="password" id="password" name="password" class="input-block-level required shukuan" placeholder="请输入密码">
-			</div>
-		<c:if test="${isValidateCodeLogin}">
-			<div class="validateCode">
-				<label class="input-label mid" for="validateCode">验证码</label>
-            	<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
-			</div>
-		</c:if>
-
-        <input class="btn btn-large btn-primary an" type="submit"  style="width:305px; margin-top:13px;
-" value="登 录"/>&nbsp;&nbsp;
-
 	</form>
-    </div>
-    </div>
 	<div class="footer">
-	技术支持：${fns:getConfig('copyrightYear')}    &nbsp;&nbsp;   &nbsp;&nbsp;     版权所有：${fns:getConfig('version')}
+		Copyright &copy; 2012-${fns:getConfig('copyrightYear')} <a href="${pageContext.request.contextPath}${fns:getFrontPath()}">${fns:getConfig('productName')}</a> - Powered By <a href="http://jeesite.com" target="_blank">JeeSite</a> ${fns:getConfig('version')} 
 	</div>
 	<script src="${ctxStatic}/flash/zoom.min.js" type="text/javascript"></script>
-	</div>
 </body>
 </html>
