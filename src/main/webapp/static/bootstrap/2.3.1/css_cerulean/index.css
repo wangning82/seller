@@ -20,7 +20,7 @@ img {border:none;}
 	/*****Generic Classes*****/
 .dgs11{ margin: 0px;
 padding:0px;
- background:url(../../../growtogether/images/dl_bj.jpg);
+ background:url(../../../aquote/images/dl_bj.jpg);
 	background-size: cover;
 	background-position: center top; 
     background-repeat: no-repeat;
@@ -30,17 +30,17 @@ padding:0px;
 	margin-bottom: 0px;}
 	.dgs12{ margin: 0px;
 padding:0px;
- background:url(../../../growtogether/images/lz.png);
-  height:526px;
+ background:url(../../../aquote/images/lz.png);
+  height:450px;
 	background-position: center top; 
     background-repeat: no-repeat;
 	margin-left: 0px;
-	margin-top: 100px;
+	margin-top: 30px;
 	margin-right: 0px;
 	margin-bottom: 0px;}
 	.dgs13{ margin: 0px;
         padding:0px;
-        background:url(../../../growtogether/images/top.jpg);
+        background:url(../../../aquote/images/top.jpg);
 		background-size: cover;
         height:90px;
 	    background-position: center top;
@@ -54,11 +54,11 @@ padding:0px;
 	.denglu_s{ width:305px; margin:0 auto;
 }
 .noankuan{ background:#0975D0; height:35px; width:305px; border:1px #0c69c0 solid ; border-radius: 5px;}
-.denglu_ss1{  background:url(../../../growtogether/images/renwu.png) no-repeat; width:30px; height:20px; float:left; margin-top:8px; margin-left:10px;   }
-.denglu_ss{ background:url(../../../growtogether/images/mima.png) no-repeat; width:30px; height:20px; float:left; margin-top:8px; margin-left:10px;   }
+.denglu_ss1{  background:url(../../../aquote/images/renwu.png) no-repeat; width:30px; height:20px; float:left; margin-top:8px; margin-left:10px;   }
+.denglu_ss{ background:url(../../../aquote/images/mima.png) no-repeat; width:30px; height:20px; float:left; margin-top:8px; margin-left:10px;   }
 .shukuan{ height:35px; line-height:35px; background:#0975D0; width:260px; border:0px; color:#FFFFFF; font-family:"微软雅黑"; font-size:16px;}
 
-	 .an{ background:url(../../../growtogether/images/anniu.png); width:301px; height:40px; border:0px; margin:0 auto; color:#FFFFFF; font-size:16px; font-family:"微软雅黑"; cursor: pointer;}
+	 .an{ background:url(../../../aquote/images/anniu.png); width:301px; height:40px; border:0px; margin:0 auto; color:#FFFFFF; font-size:16px; font-family:"微软雅黑"; cursor: pointer;}
 	 
-.footer{ background:url(../../../growtogether/images/footer.png) repeat-x; height:91px; z-index:1;  position: absolute; width:100%; line-height:91px; text-align:center; color:#FFFFFF;}
+.footer{ background:url(../../../aquote/images/footer.png) repeat-x; height:70px; z-index:1;  position: absolute; width:100%; line-height:70px; text-align:center; color:#FFFFFF;}
 	

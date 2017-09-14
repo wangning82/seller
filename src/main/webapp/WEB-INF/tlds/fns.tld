@@ -254,7 +254,7 @@
   <function>
     <description>通用根据id查询方法</description>
     <name>getEntity</name>
-    <function-class>com.growtogether.common.func.FuncUtil</function-class>
+    <function-class>com.aquote.common.func.FuncUtil</function-class>
     <function-signature>com.thinkgem.jeesite.common.persistence.DataEntity get(java.lang.String,java.lang.String)</function-signature>
     <example>${fns:getEntity(cacheKey,id)}</example>  
   </function>
@@ -262,7 +262,7 @@
   <function>
     <description>通用查询所有方法</description>
     <name>getAll</name>
-    <function-class>com.growtogether.common.func.FuncUtil</function-class>
+    <function-class>com.aquote.common.func.FuncUtil</function-class>
     <function-signature>java.util.List getAll(java.lang.String)</function-signature>
     <example>${fns:getAll(cacheKey)}</example>  
   </function>
@@ -270,7 +270,7 @@
   <function>
     <description>通用查询,没用到缓存,调用方法默认不传参数，返回值是任意类型，第二个参数为service类中反射调用的方法名</description>
     <name>queryNoParam</name>
-    <function-class>com.growtogether.common.func.FuncUtil</function-class>
+    <function-class>com.aquote.common.func.FuncUtil</function-class>
     <function-signature>java.lang.Object query(java.lang.String,java.lang.String)</function-signature>
     <example>${fns:queryNoParam(cacheKey,methodName)}</example>  
   </function>
@@ -278,7 +278,7 @@
   <function>
     <description>通用查询,没用到缓存,返回值是任意类型，第二个参数为service类中反射调用的方法名，第三个参数是方法传递参数，多值时用逗号分隔，该参数必须有值，不然查不出来东西</description>
     <name>query</name>
-    <function-class>com.growtogether.common.func.FuncUtil</function-class>
+    <function-class>com.aquote.common.func.FuncUtil</function-class>
     <function-signature>java.lang.Object query(java.lang.String,java.lang.String,java.lang.String)</function-signature>
     <example>${fns:query(cacheKey,methodName,values)}</example>  
   </function>
