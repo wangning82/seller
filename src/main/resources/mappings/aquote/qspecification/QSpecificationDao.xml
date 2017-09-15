@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aquote.qspecification.dao.QSpecificationDao">
+    
+	<sql id="qSpecificationColumns">
+		a.id AS "id",
+		a.model_id AS "modelId",
+		a.name AS "name",
+		a.type AS "type",
+		a.sort AS "sort",
+		a.is_show AS "isShow",
+		a.permission AS "permission",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="qSpecificationJoins">
+	</sql>
+    
+	<select id="get" resultType="QSpecification">
+		SELECT 
+			<include refid="qSpecificationColumns"/>
+		FROM q_specification a
+		<include refid="qSpecificationJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="QSpecification">
+		SELECT 
+			<include refid="qSpecificationColumns"/>
+		FROM q_specification a
+		<include refid="qSpecificationJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="modelId != null and modelId != ''">
+				AND a.model_id = #{modelId}
+			</if>
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="type != null and type != ''">
+				AND a.type LIKE 
+					<if test="dbName == 'oracle'">'%'||#{type}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{type}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{type},'%')</if>
+			</if>
+			<if test="createBy != null and createBy.id != null and createBy.id != ''">
+				AND a.create_by LIKE 
+					<if test="dbName == 'oracle'">'%'||#{createBy.id}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{createBy.id}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{createBy.id},'%')</if>
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="QSpecification">
+		SELECT 
+			<include refid="qSpecificationColumns"/>
+		FROM q_specification a
+		<include refid="qSpecificationJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO q_specification(
+			id,
+			model_id,
+			name,
+			type,
+			sort,
+			is_show,
+			permission,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{modelId},
+			#{name},
+			#{type},
+			#{sort},
+			#{isShow},
+			#{permission},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE q_specification SET 	
+			model_id = #{modelId},
+			name = #{name},
+			type = #{type},
+			sort = #{sort},
+			is_show = #{isShow},
+			permission = #{permission},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE q_specification SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
