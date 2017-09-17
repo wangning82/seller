@@ -53,6 +53,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
+				<th>产品型号</th>
 				<th>产品规格</th>
 				<th>规格等级</th>
 				<th>创建者</th>
@@ -65,12 +66,12 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="qSpecification">
 			<tr>
-				<td><a href="${ctx}/qspecification/qSpecification/form?id=${qSpecification.id}">
-					${qSpecification.qModel}
-				</a></td>
 				<td>
-					${qSpecification.name}
+					${qSpecification.qModel.name}
 				</td>
+				<td><a href="${ctx}/qspecification/qSpecification/form?id=${qSpecification.id}">
+					${qSpecification.name}
+				</a></td>
 				<td>
 					${qSpecification.type}
 				</td>

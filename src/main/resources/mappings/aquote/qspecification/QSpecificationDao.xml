@@ -4,7 +4,7 @@
     
 	<sql id="qSpecificationColumns">
 		a.id AS "id",
-		a.model_id AS "modelId",
+		a.model_id AS "model.id",
 		a.name AS "name",
 		a.type AS "type",
 		a.sort AS "sort",
@@ -15,10 +15,14 @@
 		a.update_by AS "updateBy.id",
 		a.update_date AS "updateDate",
 		a.remarks AS "remarks",
-		a.del_flag AS "delFlag"
+		a.del_flag AS "delFlag",
+		m.name AS "qModel.name",
+    	m.parent_id AS "qModel.parent.id",
+    	m.parent_ids AS "qModel.parentIds"
 	</sql>
 	
 	<sql id="qSpecificationJoins">
+		LEFT JOIN q_model m ON m.id = a.model_id
 	</sql>
     
 	<select id="get" resultType="QSpecification">
