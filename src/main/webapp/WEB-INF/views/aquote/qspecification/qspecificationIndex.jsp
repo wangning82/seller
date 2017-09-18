@@ -26,8 +26,8 @@
 	<script type="text/javascript">
 		var setting = {data:{simpleData:{enable:true,idKey:"id",pIdKey:"pId",rootPId:'0'}},
 			callback:{onClick:function(event, treeId, treeNode){
-					var id = treeNode.pId == '0' ? '' :treeNode.pId;
-					$('#modelContent').attr("src","${ctx}/aquote/model/qModelList?id="+id+"&parentIds="+treeNode.pIds);
+					var id = treeNode.id == '0' ? '' :treeNode.id;
+					$('#modelContent').attr("src","${ctx}/qspecification/qSpecification/list?qModel.id="+id+"&qModel.name="+treeNode.name);
 				}
 			}
 		};

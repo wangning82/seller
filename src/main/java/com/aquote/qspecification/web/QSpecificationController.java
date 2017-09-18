@@ -57,7 +57,6 @@ public class QSpecificationController extends BaseController {
 	public String list(QSpecification qSpecification, HttpServletRequest request, HttpServletResponse response, Model model) {
 		Page<QSpecification> page = qSpecificationService.findPage(new Page<QSpecification>(request, response), qSpecification);
 		model.addAttribute("qSpecification", qSpecification);
-		model.addAttribute("qModel",request.getParameter("qModel.name"));
 		model.addAttribute("page", page);
 		return "aquote/qspecification/qSpecificationList";
 	}

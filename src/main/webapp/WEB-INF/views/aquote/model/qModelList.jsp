@@ -80,7 +80,7 @@
 				{{row.sort}}
 			</td>
 			<td>
-				{{row.createBy.id}}有误
+				{{row.createBy}}
 			</td>
 			<td>
 				{{row.createDate}}

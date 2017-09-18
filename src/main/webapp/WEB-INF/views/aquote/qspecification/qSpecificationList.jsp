@@ -53,7 +53,8 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>产品型号</th>
+				<th>产品类型</th>
+				<th>归属型号</th>
 				<th>产品规格</th>
 				<th>规格等级</th>
 				<th>创建者</th>
@@ -67,6 +68,9 @@
 		<c:forEach items="${page.list}" var="qSpecification">
 			<tr>
 				<td>
+					${qSpecification.qModel.parent.name}
+				</td>
+				<td>
 					${qSpecification.qModel.name}
 				</td>
 				<td><a href="${ctx}/qspecification/qSpecification/form?id=${qSpecification.id}">
@@ -76,7 +80,7 @@
 					${qSpecification.type}
 				</td>
 				<td>
-					${qSpecification.createBy.id}
+					${qSpecification.createBy.name}
 				</td>
 				<td>
 					<fmt:formatDate value="${qSpecification.createDate}" pattern="yyyy-MM-dd HH:mm:ss"/>

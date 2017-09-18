@@ -18,11 +18,15 @@
 		a.del_flag AS "delFlag",
 		m.name AS "qModel.name",
     	m.parent_id AS "qModel.parent.id",
-    	m.parent_ids AS "qModel.parentIds"
+    	m.parent_ids AS "qModel.parentIds",
+    	u.name AS "createBy.name",
+    	(SELECT c.name FROM q_model c  WHERE c.id = m.parent_id) AS "qModel.parent.name"
+
 	</sql>
 	
 	<sql id="qSpecificationJoins">
 		LEFT JOIN q_model m ON m.id = a.model_id
+		LEFT JOIN sys_user u ON u.id = a.create_by
 	</sql>
     
 	<select id="get" resultType="QSpecification">
@@ -40,8 +44,11 @@
 		<include refid="qSpecificationJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
-			<if test="modelId != null and modelId != ''">
-				AND a.model_id = #{modelId}
+			<if test="qModel != null and qModel.id != '' and qModel.name != null">
+				AND (m.id = #{qModel.id}  OR m.parent_ids  LIKE
+					<if test="dbName == 'oracle'">'%,'||#{qModel.id}||',%')</if>
+					<if test="dbName == 'mssql'">'%,'+#{qModel.id}+',%')</if>
+					<if test="dbName == 'mysql'">CONCAT('%',#{qModel.id},'%'))</if>
 			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
