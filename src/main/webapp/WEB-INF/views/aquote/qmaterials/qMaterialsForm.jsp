@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>产品规格管理</title>
+	<title>原材料管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -27,35 +27,33 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/qspecification/qSpecification/">产品规格列表</a></li>
-		<li class="active"><a href="${ctx}/qspecification/qSpecification/form?id=${qSpecification.id}">产品规格<shiro:hasPermission name="qspecification:qSpecification:edit">${not empty qSpecification.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="qspecification:qSpecification:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/qmaterials/qMaterials/">原材料列表</a></li>
+		<li class="active"><a href="${ctx}/qmaterials/qMaterials/form?id=${qMaterials.id}">原材料<shiro:hasPermission name="qmaterials:qMaterials:edit">${not empty qMaterials.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="qmaterials:qMaterials:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
-	<form:form id="inputForm" modelAttribute="qSpecification" action="${ctx}/qspecification/qSpecification/save" method="post" class="form-horizontal">
+	<form:form id="inputForm" modelAttribute="qMaterials" action="${ctx}/qmaterials/qMaterials/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
-		<sys:message content="${message}"/>
+		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">产品型号:</label>
+			<label class="control-label">产品分类：</label>
 			<div class="controls">
-				<sys:treeselect id="qModel" name="qModel.id" value="${QSpecification.qModel.id}" labelName="qModel.name" labelValue="${QSpecification.qModel.name}"
+				<sys:treeselect id="qModel" name="qModel.id" value="${QMaterials.qModel.id}" labelName="qModel.name" labelValue="${QMaterials.qModel.name}"
 								title="型号" url="/model/qModel/treeData" cssClass="required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
-
 		</div>
-
 		<div class="control-group">
-			<label class="control-label">产品规格：</label>
+			<label class="control-label">材料名称：</label>
 			<div class="controls">
 				<form:input path="name" htmlEscape="false" maxlength="100" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">规格等级：</label>
+			<label class="control-label">原材料品质：</label>
 			<div class="controls">
-				<form:select path="type" class="input-xlarge ">
+				<form:select path="quality" class="input-xlarge ">
 					<form:option value="" label=""/>
-					<form:options items="${fns:getDictList('qspecification_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+					<form:options items="${fns:getDictList('quality_grade')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</div>
 		</div>
@@ -67,16 +65,10 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">是否显示：</label>
+			<label class="control-label">价格：</label>
 			<div class="controls">
-				<form:input path="isShow" htmlEscape="false" maxlength="1" class="input-xlarge required"/>
+				<form:input path="price" htmlEscape="false" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">权限标识：</label>
-			<div class="controls">
-				<form:input path="permission" htmlEscape="false" maxlength="200" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -86,7 +78,7 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="qspecification:qSpecification:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="qmaterials:qMaterials:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
