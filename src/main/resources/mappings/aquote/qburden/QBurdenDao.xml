@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aquote.qburden.dao.QBurdenDao">
+    
+	<sql id="qBurdenColumns">
+		a.id AS "id",
+		a.specification_id AS "specificationId",
+		a.materials_id AS "materialsId",
+		a.materials_name AS "materialsName",
+		a.materials_quality AS "materialsQuality",
+		a.materials_price AS "materialsPrice",
+		a.materials_usenum AS "materialsUsenum",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="qBurdenJoins">
+	</sql>
+    
+	<select id="get" resultType="QBurden">
+		SELECT 
+			<include refid="qBurdenColumns"/>
+		FROM q_burden a
+		<include refid="qBurdenJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="QBurden">
+		SELECT 
+			<include refid="qBurdenColumns"/>
+		FROM q_burden a
+		<include refid="qBurdenJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="materialsId != null and materialsId != ''">
+				AND a.materials_id = #{materialsId}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="QBurden">
+		SELECT 
+			<include refid="qBurdenColumns"/>
+		FROM q_burden a
+		<include refid="qBurdenJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO q_burden(
+			id,
+			specification_id,
+			materials_id,
+			materials_name,
+			materials_quality,
+			materials_price,
+			materials_usenum,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{specificationId},
+			#{materialsId},
+			#{materialsName},
+			#{materialsQuality},
+			#{materialsPrice},
+			#{materialsUsenum},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE q_burden SET 	
+			materials_id = #{materialsId},
+			materials_name = #{materialsName},
+			materials_quality = #{materialsQuality},
+			materials_price = #{materialsPrice},
+			materials_usenum = #{materialsUsenum},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE q_burden SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
