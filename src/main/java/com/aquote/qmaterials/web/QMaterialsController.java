@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.aquote.model.entity.QModel;
+import com.aquote.qburden.entity.QBurden;
+import com.aquote.qburden.service.QBurdenService;
 import com.thinkgem.jeesite.modules.sys.service.DictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +39,8 @@ public class QMaterialsController extends BaseController {
 
 	@Autowired
 	private QMaterialsService qMaterialsService;
+	@Autowired
+	private QBurdenService qBurdenService;
 
 	
 	@ModelAttribute
@@ -72,6 +76,7 @@ public class QMaterialsController extends BaseController {
 		model.addAttribute("qMaterials", qMaterials);
 		return "aquote/qmaterials/qMaterialsForm";
 	}
+
 
 	@RequiresPermissions("qmaterials:qMaterials:edit")
 	@RequestMapping(value = "save")

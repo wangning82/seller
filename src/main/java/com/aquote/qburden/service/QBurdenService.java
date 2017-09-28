@@ -44,5 +44,4 @@ public class QBurdenService extends CrudService<QBurdenDao, QBurden> {
 	public void delete(QBurden qBurden) {
 		super.delete(qBurden);
 	}
-	
 }

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>原材料管理</title>
+	<title>材料配件管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -18,8 +18,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/qmaterials/qMaterials/">原材料列表</a></li>
-		<shiro:hasPermission name="qmaterials:qMaterials:edit"><li><a href="${ctx}/qmaterials/qMaterials/form">原材料添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/qmaterials/qMaterials/">材料配件列表</a></li>
+		<shiro:hasPermission name="qmaterials:qMaterials:edit"><li><a href="${ctx}/qmaterials/qMaterials/form">材料配件添加</a></li></shiro:hasPermission>
 	</ul>
 	<form:form id="searchForm" modelAttribute="qMaterials" action="${ctx}/qmaterials/qMaterials/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -53,15 +53,15 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>产品类型</th>
-				<th>材料名称</th>
-				<th>材料品质</th>
-				<th>价格</th>
-				<th>排序</th>
+				<th style="text-align: center">产品类型</th>
+				<th style="text-align: center">材料配件名称</th>
+				<th style="text-align: center">材料配件品质</th>
+				<th style="text-align: center">价格(元)</th>
+				<th style="text-align: center">排序</th>
 				<%--<th>创建者</th>--%>
 				<%--<th>创建时间</th>--%>
 				<%--<th>更新时间</th>--%>
-				<th>备注信息</th>
+				<th style="text-align: center">备注信息</th>
 				<shiro:hasPermission name="qmaterials:qMaterials:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>

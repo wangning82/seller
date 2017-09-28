@@ -6,6 +6,7 @@ package com.aquote.qspecification.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson.JSONObject;
 import com.aquote.model.entity.QModel;
 import com.aquote.qburden.entity.QBurden;
 import com.aquote.qburden.service.QBurdenService;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.thinkgem.jeesite.common.config.Global;
@@ -27,7 +29,9 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.aquote.qspecification.entity.QSpecification;
 import com.aquote.qspecification.service.QSpecificationService;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 产品规格管理Controller
@@ -79,17 +83,35 @@ public class QSpecificationController extends BaseController {
 	{
 		Page<QMaterials> page = qMaterialsService.findPage(new Page<QMaterials>(request, response), qMaterials);
 		model.addAttribute("qMaterials",qMaterials);
+		model.addAttribute("specificationId",request.getParameter("specificationId"));
 		model.addAttribute("page", page);
 		return "aquote/qspecification/qBurdenMaterials";
 	}
+
+
+	//规格选中的材料的数据写入
+	@RequestMapping(value = "materialsadd")
+	@ResponseBody
+	public String burdenadd(QBurden qBurden, String qspecificationId, String qMaterialsId, String qMaterialsName, String qMaterialsQuality, String qMaterialsPrice, RedirectAttributes redirectAttributes)
+	{
+		qBurden.setSpecificationId(qspecificationId);
+		qBurden.setMaterialsId(qMaterialsId);
+		qBurden.setMaterialsName(qMaterialsName);
+		qBurden.setMaterialsQuality(qMaterialsQuality);
+		qBurden.setMaterialsPrice(qMaterialsPrice);
+
+		qBurdenService.save(qBurden);
+		addMessage(redirectAttributes, "材料配件添加成功");
+		Map<String,Object> hashMap = new HashMap<>();
+		hashMap.put("msg", "保存成功");
+		return JSONObject.toJSONString(hashMap);
+	}
+
 
 	@RequiresPermissions("qspecification:qSpecification:view")
 	@RequestMapping(value = "burdensave")
 	public String burdensave(QBurden qBurden, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes)
 	{
-//		if (!beanValidator(model, qBurden)){
-//			return burdenlist(qBurden, model);
-//		}
 		qBurden.setSpecificationId(request.getParameter("qSpecificationId"));
 		qBurdenService.save(qBurden);
 		addMessage(redirectAttributes, "保存产品规格成功");
@@ -132,6 +154,14 @@ public class QSpecificationController extends BaseController {
 		qSpecificationService.delete(qSpecification);
 		addMessage(redirectAttributes, "删除产品规格成功");
 		return "redirect:"+Global.getAdminPath()+"/qspecification/qSpecification/?repage";
+	}
+
+	@RequiresPermissions("qspecification:qSpecification:edit")
+	@RequestMapping(value = "burdendelete")
+	public String burdendelete(QBurden qBurden, RedirectAttributes redirectAttributes) {
+		qBurdenService.delete(qBurden);
+		addMessage(redirectAttributes, "删除规格的材料成功");
+		return "redirect:"+Global.getAdminPath()+"/qspecification/qSpecification/burdenlist/?repage";
 	}
 
 

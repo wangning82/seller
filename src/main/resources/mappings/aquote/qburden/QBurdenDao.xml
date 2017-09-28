@@ -39,6 +39,9 @@
 			<if test="materialsId != null and materialsId != ''">
 				AND a.materials_id = #{materialsId}
 			</if>
+			<if test="specificationId != null and specificationId != ''">
+				AND a.specification_id = #{specificationId}
+			</if>
 		</where>
 		<choose>
 			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
@@ -112,11 +115,22 @@
 			remarks = #{remarks}
 		WHERE id = #{id}
 	</update>
-	
+
 	<update id="delete">
-		UPDATE q_burden SET 
-			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id}
+		UPDATE q_burden b SET del_flag = #{DEL_FLAG_DELETE}
+		WHERE 1=1
+		<if test="id != null and id != ''">
+			AND b.id = #{id}
+		</if>
+		<if test="materialsId != null and materialsId != ''">
+			AND b.materials_id = #{materialsId}
+		</if>
+		<if test="specificationId != null and specificationId != ''">
+			AND b.specification_id = #{specificationId}
+		</if>
+
+
 	</update>
+
 	
 </mapper>

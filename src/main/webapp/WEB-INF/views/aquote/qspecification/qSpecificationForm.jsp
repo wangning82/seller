@@ -81,14 +81,14 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group" style="visibility: hidden">
+		<div class="control-group" style="display: none">
 			<label class="control-label">是否显示：</label>
 			<div class="controls">
 				<form:input path="isShow" htmlEscape="false" maxlength="1"  class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" style="display: none">
 			<label class="control-label">权限标识：</label>
 			<div class="controls">
 				<form:input path="permission" htmlEscape="false" maxlength="200" class="input-xlarge "/>

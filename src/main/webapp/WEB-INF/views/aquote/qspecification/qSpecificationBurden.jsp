@@ -7,13 +7,24 @@
 	<script type="text/javascript">
 
 
-		function openMaterialsWin(){
-			alert(1);
-			top.$.jBox.open("iframe:${ctx}/qspecification/qSpecification/burdenmaterialslist", "原材料表",$(top.document).width()-640,$(top.document).height()-240,{
-				buttons:{"关闭":true,"关闭":true}, loaded:function(h){
-					$(".jbox-content", top.document).css("overflow-y","hidden");
-				}
-			});
+		function openMaterialsWin(specificationId){
+			isFreshFlag="1";
+			jBox.open("iframe:${ctx}/qspecification/qSpecification/burdenmaterialslist?specificationId="+specificationId,
+					"原材料表",
+					$(top.document).width()-640,
+					$(top.document).height()-240,
+					{
+						buttons: {"关闭": true, "关闭": true},
+						iframeScrolling: 'yes',
+						showClose: true,
+						closed:function (){
+							//在弹出窗口页面，如果我们保存了数据，就将父页面里的变量isFreshFlag 值设置为2
+							if(isFreshFlag==2){
+								location.reload();
+							}
+						}
+					}
+			);
 		}
 
 		function inUsernum(){
@@ -23,21 +34,20 @@
 		}
 
 
-
 	</script>
 </head>
 <body>
-
+<input id="specificationId" style="display: none" value=st>
 <table id="contentTable" class="table table-striped table-bordered table-condensed">
 	<form:form id="inputForm" modelAttribute="qBurden" action="${ctx}/qspecification/qSpecification/burdensave" method="post" class="form-horizontal">
 		<thead>
 			<tr >
 				<th  style="text-align: center;width: 50px">序号</th>
-				<th  style="text-align: center">材料名称</th>
-				<th style="text-align: center">材料品质</th>
-				<th style="text-align: center">材料价格(元/千克)</th>
-				<th style="text-align: center">使用数量（千克）</th>
-				<th style="text-align: center">成本价格</th>
+				<th  style="text-align: center">材料配件名称</th>
+				<th style="text-align: center">材料配件品质</th>
+				<th style="text-align: center">材料价格(元/单位)</th>
+				<th style="text-align: center">使用数量（单位）</th>
+				<th style="text-align: center">成本价格(元)</th>
 				<th style="text-align: center">操作</th>
 			</tr>
 		</thead>
@@ -65,7 +75,7 @@
 				</td>
 
 				<td style="text-align: center">
-				<a href="#" onclick="return confirmx('确认要删除该原材料吗？', this.href)">删除</a>
+					<a href="${ctx}/qspecification/qSpecification/burdendelete?materialsId=${qBurden.materialsId}&specificationId=${qBurden.specificationId}&id=${qBurden.id}" onclick="return confirmx('确认要删除该规格的材料吗？', this.href)">删除</a>
 				</td>
 
 				</tr>
@@ -75,7 +85,7 @@
 
 
 		<div class="form-actions" >
-			<input id="openMaterials" style="margin-left: 5px" class="btn btn-primary" type="button" value="添加原材料" onclick="openMaterialsWin()"/>
+			<input id="openMaterials" style="margin-left: 5px" class="btn btn-primary" type="button" value="添加原材料" onclick="openMaterialsWin('${QSpecification.id}')"/>
 			<shiro:hasPermission name="qspecification:qSpecification:edit">
 				<input id="btnSubmit"style="margin-left: 800px" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
 			</shiro:hasPermission>

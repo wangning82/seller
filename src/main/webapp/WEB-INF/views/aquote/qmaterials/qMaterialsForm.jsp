@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <html>
 <head>
-	<title>原材料管理</title>
+	<title>材料配件管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -27,8 +27,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li><a href="${ctx}/qmaterials/qMaterials/">原材料列表</a></li>
-		<li class="active"><a href="${ctx}/qmaterials/qMaterials/form?id=${qMaterials.id}">原材料<shiro:hasPermission name="qmaterials:qMaterials:edit">${not empty qMaterials.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="qmaterials:qMaterials:edit">查看</shiro:lacksPermission></a></li>
+		<li><a href="${ctx}/qmaterials/qMaterials/">材料配件列表</a></li>
+		<li class="active"><a href="${ctx}/qmaterials/qMaterials/form?id=${qMaterials.id}">材料配件<shiro:hasPermission name="qmaterials:qMaterials:edit">${not empty qMaterials.id?'修改':'添加'}</shiro:hasPermission><shiro:lacksPermission name="qmaterials:qMaterials:edit">查看</shiro:lacksPermission></a></li>
 	</ul><br/>
 	<form:form id="inputForm" modelAttribute="qMaterials" action="${ctx}/qmaterials/qMaterials/save" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
