@@ -36,7 +36,7 @@
 		<div class="control-group">
 			<label class="control-label">产品分类：</label>
 			<div class="controls">
-				<sys:treeselect id="qModel" name="qModel.id" value="${QMaterials.qModel.id}" labelName="qModel.name" labelValue="${QMaterials.qModel.name}"
+				<sys:treeselect  id="qModel" name="qModel.id" value="${QMaterials.qModel.id}" labelName="qModel.name" labelValue="${QMaterials.qModel.name}"
 								title="型号" url="/model/qModel/treeData" cssClass="required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>

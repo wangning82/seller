@@ -22,8 +22,12 @@ public class QSpecification extends DataEntity<QSpecification> {
 	private String modelId;		// 型号id
 	private String name;		// 规格名称
 	private String type;		// 规格类型
+	private double cost;		// 规格类型
 	private double profitratio;	//利润率
-	private double chargeratio;	//加工费
+	private double profit;	//利润
+	private double chargeratio;	//加工费率
+	private double charge;	//加工费
+	private double price;	//加工费
 	private String isShow;		// 是否显示
 	private String sort;		// 排序
 	private String permission;		// 权限标识
@@ -73,6 +77,14 @@ public class QSpecification extends DataEntity<QSpecification> {
 	public void setType(String type) {
 		this.type = type;
 	}
+	//成本
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
 
 	//利润率
 	public double getProfitratio() {
@@ -82,14 +94,37 @@ public class QSpecification extends DataEntity<QSpecification> {
 	public void setProfitratio(double profitratio) {
 		this.profitratio = profitratio;
 	}
+	//利润
+	public double getProfit() {
+		return profit;
+	}
 
-	//加工费
+	public void setProfit(double profit) {
+		this.profit = profit;
+	}
+
+	//加工费率
 	public double getChargeratio() {
 		return chargeratio;
 	}
 
 	public void setChargeratio(double chargeratio) {
 		this.chargeratio = chargeratio;
+	}
+
+	public double getCharge() {
+		return charge;
+	}
+
+	public void setCharge(double charge) {
+		this.charge = charge;
+	}
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	@Length(min=1, max=1, message="是否在规格中显示长度必须介于 1 和 1 之间")

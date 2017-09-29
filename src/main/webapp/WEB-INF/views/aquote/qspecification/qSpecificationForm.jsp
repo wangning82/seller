@@ -61,6 +61,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">成本：</label>
+			<div class="controls">
+				<form:input path="cost" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">利润率：</label>
 			<div class="controls">
 				<form:input path="profitratio" htmlEscape="false" class="input-xlarge required"/>%
@@ -68,10 +75,31 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">加工费：</label>
+			<label class="control-label">利润：</label>
+			<div class="controls">
+				<form:input path="profit" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">加工费率：</label>
 			<div class="controls">
 				<form:input path="chargeratio" htmlEscape="false" class="input-xlarge required"/>%
 				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">加工费：</label>
+			<div class="controls">
+				<form:input path="charge" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">价格：</label>
+			<div class="controls">
+				<form:input path="price" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
 		<div class="control-group">

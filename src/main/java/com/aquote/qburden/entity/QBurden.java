@@ -3,9 +3,8 @@
  */
 package com.aquote.qburden.entity;
 
-import org.hibernate.validator.constraints.Length;
-
 import com.thinkgem.jeesite.common.persistence.DataEntity;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 产品规格材料Entity
@@ -13,7 +12,7 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @version 2017-09-20
  */
 public class QBurden extends DataEntity<QBurden> {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private String specificationId;		// 规格id
@@ -22,7 +21,7 @@ public class QBurden extends DataEntity<QBurden> {
 	private String materialsQuality;		// 材料品质
 	private String materialsPrice;		// 材料价钱
 	private String materialsUsenum;		// 材料的用量
-	
+
 	public QBurden() {
 		super();
 	}
@@ -48,7 +47,7 @@ public class QBurden extends DataEntity<QBurden> {
 	public void setMaterialsId(String materialsId) {
 		this.materialsId = materialsId;
 	}
-	
+
 	@Length(min=1, max=300, message="材料名称长度必须介于 1 和 300 之间")
 	public String getMaterialsName() {
 		return materialsName;
@@ -57,7 +56,7 @@ public class QBurden extends DataEntity<QBurden> {
 	public void setMaterialsName(String materialsName) {
 		this.materialsName = materialsName;
 	}
-	
+
 	@Length(min=1, max=200, message="材料品质长度必须介于 1 和 200 之间")
 	public String getMaterialsQuality() {
 		return materialsQuality;
@@ -66,7 +65,7 @@ public class QBurden extends DataEntity<QBurden> {
 	public void setMaterialsQuality(String materialsQuality) {
 		this.materialsQuality = materialsQuality;
 	}
-	
+
 	public String getMaterialsPrice() {
 		return materialsPrice;
 	}
@@ -74,7 +73,7 @@ public class QBurden extends DataEntity<QBurden> {
 	public void setMaterialsPrice(String materialsPrice) {
 		this.materialsPrice = materialsPrice;
 	}
-	
+
 	public String getMaterialsUsenum() {
 		return materialsUsenum;
 	}

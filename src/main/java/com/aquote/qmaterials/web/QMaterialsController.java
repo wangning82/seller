@@ -7,9 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.aquote.model.entity.QModel;
-import com.aquote.qburden.entity.QBurden;
 import com.aquote.qburden.service.QBurdenService;
-import com.thinkgem.jeesite.modules.sys.service.DictService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,8 +23,6 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.aquote.qmaterials.entity.QMaterials;
 import com.aquote.qmaterials.service.QMaterialsService;
-
-import java.util.List;
 
 /**
  * 原材料Controller
@@ -84,6 +80,7 @@ public class QMaterialsController extends BaseController {
 		if (!beanValidator(model, qMaterials)){
 			return form(qMaterials, model);
 		}
+		qMaterials.setModelId(qMaterials.getqModel().getId());
 		qMaterialsService.save(qMaterials);
 		addMessage(redirectAttributes, "保存原材料成功");
 		return "redirect:"+Global.getAdminPath()+"/qmaterials/qMaterials/?repage";

@@ -5,8 +5,6 @@ package com.aquote.qburden.service;
 
 import com.aquote.qburden.dao.QBurdenDao;
 import com.aquote.qburden.entity.QBurden;
-import com.aquote.qspecification.dao.QSpecificationDao;
-import com.aquote.qspecification.entity.QSpecification;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import org.springframework.stereotype.Service;
@@ -39,6 +37,7 @@ public class QBurdenService extends CrudService<QBurdenDao, QBurden> {
 	public void save(QBurden qBurden) {
 		super.save(qBurden);
 	}
+
 	
 	@Transactional(readOnly = false)
 	public void delete(QBurden qBurden) {
@@ -49,4 +48,5 @@ public class QBurdenService extends CrudService<QBurdenDao, QBurden> {
 	public void update(QBurden qBurden) {
 		dao.update(qBurden);
 	}
+
 }

@@ -79,14 +79,14 @@
 			$.jBox.confirm("确定删除材料配件吗？", "删除提示", submit);
 		}
 
-		function updateMaterials(qBurdenId,materialsId,materialsName,materialsPrice,materialsQuality,materialsUsenum) {
+		function updateMaterials(qBurdenId,materialsId,materialsUsenum) {
 			//jbox的保存提示框
 			var submit = function (v, h, f) {
 				if (v == 'ok'){
 					$.ajax({
 						type: "POST",//post请求方式
 						url: ctx+"/qspecification/qSpecification/burdenupdate",//请求的controller
-						data: {"qBurdenId":qBurdenId,"materialsId":materialsId,"materialsName":materialsName,"materialsPrice":materialsPrice,"materialsQuality":materialsQuality,"materialsUsenum":materialsUsenum},//请求的参数
+						data: {"qBurdenId":qBurdenId,"materialsId":materialsId,"materialsUsenum":materialsUsenum},//请求的参数
 						dataType:"JSON",//返回的数据格式
 						success:function(data){
 							if(data.msg=="设置成功"){
@@ -128,12 +128,13 @@
 		<tbody>
 			<c:forEach items="${page.list}" var="qBurden" varStatus="j">
 				<tr>
+
 					<td style="text-align: center">
 							${j.index+1}
 					</td>
 				<td style="text-align: center">
 					${qBurden.materialsName}<a style="visibility:hidden">${qBurden.id}</a>
-				</td style="text-align: center">
+				</td >
 				<td style="text-align: center">
 					${qBurden.materialsQuality}
 				</td>
@@ -149,7 +150,7 @@
 				</td>
 
 				<td style="text-align: center">
-					<input id="updateSubmit" class="btn btn-primary" type="button" onclick="updateMaterials('${qBurden.id}','${qBurden.materialsId}','${qBurden.materialsName}','${qBurden.materialsPrice}','${qBurden.materialsQuality}',$('#mUsernum').val())" value="保存"/>&nbsp;
+					<input id="updateSubmit" class="btn btn-primary" type="button" onclick="updateMaterials('${qBurden.id}','${qBurden.materialsId}',$('#mUsernum${j.index}').val())" value="保存"/>&nbsp;
 					<input id="addSubmit"${j.index} class="btn btn-primary" type="button" onclick="deleteMaterials('${qBurden.specificationId}','${qBurden.materialsId}')" value="删除"/>&nbsp;
 				</td>
 

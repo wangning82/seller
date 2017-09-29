@@ -70,9 +70,29 @@ public class QSpecificationController extends BaseController {
 	@RequestMapping(value = "burdenlist")
 	public String burdenlist(QSpecification qSpecification,HttpServletRequest request, HttpServletResponse response, Model model)
 	{
+		//存储实体类
 		QBurden qBurden = new QBurden();
+		//查询所属的规格的ID
 		qBurden.setSpecificationId(qSpecification.getId());
+		//获取查询数据
 		Page<QBurden> page = qBurdenService.findPage(new Page<QBurden>(request, response), qBurden);
+
+		//查询原材料的数据
+		for (int i =0;i<page.getList().size();i++){
+			QMaterials qMaterials = new QMaterials();
+			qMaterials.setId(page.getList().get(i).getMaterialsId());
+			List<QMaterials> qMaterialsList = qMaterialsService.findList(qMaterials);
+			//设置相关的参数
+			String materialsName = qMaterialsList.get(0).getName();
+			String materialsQuality = qMaterialsList.get(0).getQuality();
+			String materialsPrice = qMaterialsList.get(0).getPrice();
+			//设置对象的相关参数
+			page.getList().get(i).setMaterialsName(materialsName);
+			page.getList().get(i).setMaterialsQuality(materialsQuality);
+			page.getList().get(i).setMaterialsPrice(materialsPrice);
+		}
+
+
 		model.addAttribute("page", page);
 		return "aquote/qspecification/qSpecificationBurden";
 	}
@@ -88,21 +108,25 @@ public class QSpecificationController extends BaseController {
 		return "aquote/qspecification/qBurdenMaterials";
 	}
 
-
 	//规格选中的材料的数据写入
 	@RequestMapping(value = "materialsadd")
 	@ResponseBody
-	public String burdenadd(QBurden qBurden, String qspecificationId, String qMaterialsId, String qMaterialsName, String qMaterialsQuality, String qMaterialsPrice, RedirectAttributes redirectAttributes)
+	public String burdenadd(QBurden qBurden, String qspecificationId, String qMaterialsId)
 	{
 		Map<String,Object> hashMap = new HashMap<>();
 		qBurden.setSpecificationId(qspecificationId);
 		qBurden.setMaterialsId(qMaterialsId);
-		qBurden.setMaterialsName(qMaterialsName);
-		qBurden.setMaterialsQuality(qMaterialsQuality);
-		qBurden.setMaterialsPrice(qMaterialsPrice);
 		try{
-			qBurdenService.save(qBurden);
-			hashMap.put("msg", "保存成功");
+			//判断是否包含了此参数
+			int isexist = qBurdenService.findList(qBurden).size();
+			if(isexist>0){
+				hashMap.put("msg", "已经存在");
+			}
+			else {
+				qBurdenService.save(qBurden);
+				hashMap.put("msg", "保存成功");
+			}
+
 		}catch(Exception e){
 			hashMap.put("msg", "保存失败");
 		}
@@ -144,7 +168,7 @@ public class QSpecificationController extends BaseController {
 		if (!beanValidator(model, qSpecification)){
 			return form(qSpecification, model);
 		}
-		// 修正引用赋值问题，不知道为何，Company和Office引用的一个实例地址，修改了一个，另外一个跟着修改。
+		//
 		qSpecification.setqModel(new QModel(request.getParameter("qModel.id")));
 		qSpecification.setModelId(request.getParameter("qModel.id"));
 		qSpecificationService.save(qSpecification);
@@ -178,17 +202,14 @@ public class QSpecificationController extends BaseController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "burdenupdate")
-	public String burdenupdate(QBurden qBurden,String qBurdenId,String materialsId,String materialsName,String materialsPrice,String materialsQuality, String materialsUsenum, RedirectAttributes redirectAttributes) {
+	public String burdenupdate(QBurden qBurden,String qBurdenId,String materialsId, String materialsUsenum, RedirectAttributes redirectAttributes) {
 		//添加更新参数
 		qBurden.setId(qBurdenId);
 		qBurden.setMaterialsId(materialsId);
-		qBurden.setMaterialsName(materialsName);
-		qBurden.setMaterialsPrice(materialsPrice);
-		qBurden.setMaterialsQuality(materialsQuality);
 		qBurden.setMaterialsUsenum(materialsUsenum);
 		Map<String,Object> hashMap = new HashMap<>();
 		try{
-			qBurdenService.save(qBurden);
+			qBurdenService.update(qBurden);
 			hashMap.put("msg", "设置成功");
 		}catch(Exception e){
 			System.out.print(e.getMessage());

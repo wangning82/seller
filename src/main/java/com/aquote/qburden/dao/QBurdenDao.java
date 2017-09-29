@@ -3,9 +3,9 @@
  */
 package com.aquote.qburden.dao;
 
+import com.aquote.qburden.entity.QBurden;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.aquote.qburden.entity.QBurden;
 
 /**
  * 产品规格材料DAO接口
@@ -14,5 +14,5 @@ import com.aquote.qburden.entity.QBurden;
  */
 @MyBatisDao
 public interface QBurdenDao extends CrudDao<QBurden> {
-	
+
 }

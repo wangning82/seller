@@ -57,6 +57,7 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr >
+				<th  style="text-align: center">序号</th>
 				<th  style="text-align: center">产品类型</th>
 				<th style="text-align: center">归属型号</th>
 				<th style="text-align: center">产品规格</th>
@@ -78,6 +79,9 @@
 		<tbody>
 		<c:forEach items="${page.list}" var="qSpecification">
 			<tr>
+				<td style="text-align: center">
+						${j.index+1}
+				</td>
 				<td>
 					${qSpecification.qModel.parent.name}
 				</td>
@@ -90,23 +94,23 @@
 				<td>
 					${qSpecification.type}
 				</td>
-				<td style="background-color: #00A6C7">
-					80
+				<td id="costid"  style="background-color: #00A6C7">
+					${qSpecification.cost}
 				</td>
 				<td style="background-color: #00aa00">
 					${qSpecification.profitratio}%
 				</td>
 				<td style="background-color: #00aa00">
-					${80*qSpecification.profitratio/100}
+					${qSpecification.profit}
 				</td>
 				<td style="background-color: #1ABC9C">
 					${qSpecification.chargeratio}%
 				</td>
 				<td style="background-color: #1ABC9C">
-					${80*qSpecification.chargeratio/100}
+					${qSpecification.charge}
 				</td>
 				<td style="background-color: #e7a413">
-					${80+80*qSpecification.profitratio/100+80*qSpecification.chargeratio/100}
+					${qSpecification.price}
 				</td>
 				<%--<td>--%>
 					<%--${qSpecification.createBy.name}--%>

@@ -43,6 +43,9 @@
 		<include refid="qMaterialsJoins"/>
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="id != null and id != ''">
+				AND a.id = #{id}
+			</if>
 			<if test="qModel != null and qModel.id != '' and qModel.name != null">
 				AND (m.id = #{qModel.id}  OR m.parent_ids LIKE
 					<if test="dbName == 'oracle'">'%'||#{qModel.id}||'%'</if>

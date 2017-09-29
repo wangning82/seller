@@ -15,21 +15,24 @@
         	return false;
         }
 
-		function addMaterials(qspecificationId,qMaterialsId,qMaterialsName,qMaterialsQuality,qMaterialsPrice) {
+		function addMaterials(qspecificationId,qMaterialsId) {
 
 			var submit = function (v, h, f) {
 				if (v == 'ok') {
 					$.ajax({
 						type: "POST",
 						url: ctx+"/qspecification/qSpecification/materialsadd",
-						data: {"qspecificationId":qspecificationId,"qMaterialsId":qMaterialsId,"qMaterialsName":qMaterialsName,"qMaterialsQuality":qMaterialsQuality,"qMaterialsPrice":qMaterialsPrice},
+						data: {"qspecificationId":qspecificationId,"qMaterialsId":qMaterialsId},
 						dataType:"JSON",
 						success:function(data){
 							if(data.msg=="保存成功"){
 								window.parent.window.isFreshFlag="2";//回写父页面的值
 								//关闭当前子窗体
 								parent.$.jBox.close(true);
-							}else{
+							}else if(data.msg=="已经存在"){
+								jBox.tip("原料配件已经存在，请重新选择！");
+							}
+							else{
 								jBox.tip("原料配件添加失败，请联系管理员");
 							}
 						}
@@ -111,7 +114,7 @@
 				</td>
 				<shiro:hasPermission name="qmaterials:qMaterials:edit">
 					<td  style="text-align: center">
-					<input id="addSubmit" class="btn btn-primary" type="button" onclick="addMaterials('${specificationId}','${qMaterials.id}','${qMaterials.name}','${qMaterials.quality}','${qMaterials.price}')" value="添加"/>&nbsp;
+					<input id="addSubmit" class="btn btn-primary" type="button" onclick="addMaterials('${specificationId}','${qMaterials.id}')" value="添加"/>&nbsp;
 					</td>
 				</shiro:hasPermission>
 			</tr>
