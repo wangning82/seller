@@ -94,16 +94,20 @@ public class QSpecificationController extends BaseController {
 	@ResponseBody
 	public String burdenadd(QBurden qBurden, String qspecificationId, String qMaterialsId, String qMaterialsName, String qMaterialsQuality, String qMaterialsPrice, RedirectAttributes redirectAttributes)
 	{
+		Map<String,Object> hashMap = new HashMap<>();
 		qBurden.setSpecificationId(qspecificationId);
 		qBurden.setMaterialsId(qMaterialsId);
 		qBurden.setMaterialsName(qMaterialsName);
 		qBurden.setMaterialsQuality(qMaterialsQuality);
 		qBurden.setMaterialsPrice(qMaterialsPrice);
+		try{
+			qBurdenService.save(qBurden);
+			hashMap.put("msg", "保存成功");
+		}catch(Exception e){
+			hashMap.put("msg", "保存失败");
+		}
 
-		qBurdenService.save(qBurden);
-		addMessage(redirectAttributes, "材料配件添加成功");
-		Map<String,Object> hashMap = new HashMap<>();
-		hashMap.put("msg", "保存成功");
+
 		return JSONObject.toJSONString(hashMap);
 	}
 
@@ -156,14 +160,42 @@ public class QSpecificationController extends BaseController {
 		return "redirect:"+Global.getAdminPath()+"/qspecification/qSpecification/?repage";
 	}
 
-	@RequiresPermissions("qspecification:qSpecification:edit")
+	@ResponseBody
 	@RequestMapping(value = "burdendelete")
-	public String burdendelete(QBurden qBurden, RedirectAttributes redirectAttributes) {
-		qBurdenService.delete(qBurden);
-		addMessage(redirectAttributes, "删除规格的材料成功");
-		return "redirect:"+Global.getAdminPath()+"/qspecification/qSpecification/burdenlist/?repage";
-	}
+	public String burdendelete(QBurden qBurden,String qspecificationId, String qMaterialsId, RedirectAttributes redirectAttributes) {
 
+		qBurden.setSpecificationId(qspecificationId);
+		qBurden.setMaterialsId(qMaterialsId);
+		Map<String,Object> hashMap = new HashMap<>();
+		try{
+			qBurdenService.delete(qBurden);
+			hashMap.put("msg", "删除成功");
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			hashMap.put("msg", "删除失败");
+		}
+		return JSONObject.toJSONString(hashMap);
+	}
+	@ResponseBody
+	@RequestMapping(value = "burdenupdate")
+	public String burdenupdate(QBurden qBurden,String qBurdenId,String materialsId,String materialsName,String materialsPrice,String materialsQuality, String materialsUsenum, RedirectAttributes redirectAttributes) {
+		//添加更新参数
+		qBurden.setId(qBurdenId);
+		qBurden.setMaterialsId(materialsId);
+		qBurden.setMaterialsName(materialsName);
+		qBurden.setMaterialsPrice(materialsPrice);
+		qBurden.setMaterialsQuality(materialsQuality);
+		qBurden.setMaterialsUsenum(materialsUsenum);
+		Map<String,Object> hashMap = new HashMap<>();
+		try{
+			qBurdenService.save(qBurden);
+			hashMap.put("msg", "设置成功");
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			hashMap.put("msg", "设置失败");
+		}
+		return JSONObject.toJSONString(hashMap);
+	}
 
 
 }

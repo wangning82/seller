@@ -104,7 +104,7 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE q_burden SET 	
+		UPDATE q_burden SET
 			materials_id = #{materialsId},
 			materials_name = #{materialsName},
 			materials_quality = #{materialsQuality},
@@ -129,6 +129,24 @@
 			AND b.specification_id = #{specificationId}
 		</if>
 
+	</update>
+
+	<update id="setNnm">
+		UPDATE q_burden b SET
+		materials_usenum = #{materialsUsenum},
+		update_by = #{updateBy.id},
+		update_date = #{updateDate},
+		remarks = #{remarks}
+		WHERE 1=1
+		<if test="id != null and id != ''">
+			AND b.id = #{id}
+		</if>
+		<if test="materialsId != null and materialsId != ''">
+			AND b.materials_id = #{materialsId}
+		</if>
+		<if test="specificationId != null and specificationId != ''">
+			AND b.specification_id = #{specificationId}
+		</if>
 
 	</update>
 

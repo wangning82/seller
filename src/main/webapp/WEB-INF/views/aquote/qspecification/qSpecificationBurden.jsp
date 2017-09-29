@@ -6,7 +6,7 @@
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
 
-
+		//打开材料配件的添加窗体
 		function openMaterialsWin(specificationId){
 			isFreshFlag="1";
 			jBox.open("iframe:${ctx}/qspecification/qSpecification/burdenmaterialslist?specificationId="+specificationId,
@@ -20,19 +20,93 @@
 						closed:function (){
 							//在弹出窗口页面，如果我们保存了数据，就将父页面里的变量isFreshFlag 值设置为2
 							if(isFreshFlag==2){
+								//刷新页面
 								location.reload();
 							}
 						}
 					}
 			);
 		}
+//
+//		$(function () {
+//			(function () {
+//				var   mUsernumBtn =$('mUsernum');
+//				mUsernumBtn.onchange(function () {
+//
+//
+//				});
+//
+//			});
+//
+//		})
+		//动态计算价钱
+		function inUsernum(j){
+			var mPriceid='mPrice'+j;
+			var mUsernumid='mUsernum'+j;
+			var mTallPriceid='mTallPrice'+j;
 
-		function inUsernum(){
-			var price=document.getElementById('mPrice').innerHTML
-			var usernum=document.getElementById('mUsernum').value;
-			document.getElementById('mTallPrice').innerHTML=price*usernum;
+			var price=document.getElementById(mPriceid).innerHTML;
+			var usernum=document.getElementById(mUsernumid).value;
+			document.getElementById(mTallPriceid).innerHTML=price*usernum;
+		}
+		//删除材料配件
+		function deleteMaterials(qspecificationId,qMaterialsId) {
+			//jbox的提示框
+			var submit = function (v, h, f) {
+				if (v == 'ok'){
+					$.ajax({
+						type: "POST",//post请求方式
+						url: ctx+"/qspecification/qSpecification/burdendelete",//请求的controller
+						data: {"qspecificationId":qspecificationId,"qMaterialsId":qMaterialsId},//请求的参数
+						dataType:"JSON",//返回的数据格式
+						success:function(data){
+							if(data.msg=="删除成功"){
+								jBox.tip("材料配件删除成功");
+								//刷新页面
+								location.reload();
+							}else{
+								jBox.tip("原料配件删除失败，请联系管理员");
+							}
+						}
+					});
+				}
+				else if (v == 'cancel'){
+					jBox.tip(v, 'info');
+				}
+				return true; //close
+			};
+
+			$.jBox.confirm("确定删除材料配件吗？", "删除提示", submit);
 		}
 
+		function updateMaterials(qBurdenId,materialsId,materialsName,materialsPrice,materialsQuality,materialsUsenum) {
+			//jbox的保存提示框
+			var submit = function (v, h, f) {
+				if (v == 'ok'){
+					$.ajax({
+						type: "POST",//post请求方式
+						url: ctx+"/qspecification/qSpecification/burdenupdate",//请求的controller
+						data: {"qBurdenId":qBurdenId,"materialsId":materialsId,"materialsName":materialsName,"materialsPrice":materialsPrice,"materialsQuality":materialsQuality,"materialsUsenum":materialsUsenum},//请求的参数
+						dataType:"JSON",//返回的数据格式
+						success:function(data){
+							if(data.msg=="设置成功"){
+								jBox.tip("设置成功");
+								//刷新页面
+								location.reload();
+							}else{
+								jBox.tip("设置保存失败，请联系管理员");
+							}
+						}
+					});
+				}
+				else if (v == 'cancel'){
+					jBox.tip(v, 'info');
+				}
+				return true; //close
+			};
+
+			$.jBox.confirm("对材料配件设置保存吗？", "设置保存提示", submit);
+		}
 
 	</script>
 </head>
@@ -63,19 +137,20 @@
 				<td style="text-align: center">
 					${qBurden.materialsQuality}
 				</td>
-				<td id="mPrice" style="text-align: center">
+				<td id="mPrice${j.index}" style="text-align: center">
 					${qBurden.materialsPrice}
 				</td>
 				<td  style="text-align: center;background-color: white;width: 140px">
-					<input id="mUsernum" style="text-align: center;border: 0px;width: auto" onkeyup="inUsernum()" value="${qBurden.materialsUsenum}"> </input>
+					<input id="mUsernum${j.index}" style="text-align: center;border: 0px;width: auto" onchange="inUsernum(${j.index})" value="${qBurden.materialsUsenum}"> </input>
 				</td>
 
-				<td id="mTallPrice" style="text-align: center">
+				<td id="mTallPrice${j.index}" style="text-align: center">
 						${qBurden.materialsPrice*qBurden.materialsUsenum}
 				</td>
 
 				<td style="text-align: center">
-					<a href="${ctx}/qspecification/qSpecification/burdendelete?materialsId=${qBurden.materialsId}&specificationId=${qBurden.specificationId}&id=${qBurden.id}" onclick="return confirmx('确认要删除该规格的材料吗？', this.href)">删除</a>
+					<input id="updateSubmit" class="btn btn-primary" type="button" onclick="updateMaterials('${qBurden.id}','${qBurden.materialsId}','${qBurden.materialsName}','${qBurden.materialsPrice}','${qBurden.materialsQuality}',$('#mUsernum').val())" value="保存"/>&nbsp;
+					<input id="addSubmit"${j.index} class="btn btn-primary" type="button" onclick="deleteMaterials('${qBurden.specificationId}','${qBurden.materialsId}')" value="删除"/>&nbsp;
 				</td>
 
 				</tr>
@@ -86,9 +161,7 @@
 
 		<div class="form-actions" >
 			<input id="openMaterials" style="margin-left: 5px" class="btn btn-primary" type="button" value="添加原材料" onclick="openMaterialsWin('${QSpecification.id}')"/>
-			<shiro:hasPermission name="qspecification:qSpecification:edit">
-				<input id="btnSubmit"style="margin-left: 800px" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
-			</shiro:hasPermission>
+
 			<input id="btnCancel" style="margin-left: 5px" class="btn" type="button"  value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

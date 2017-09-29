@@ -16,27 +16,35 @@
         }
 
 		function addMaterials(qspecificationId,qMaterialsId,qMaterialsName,qMaterialsQuality,qMaterialsPrice) {
-			$.ajax({
-			type: "POST",
-			url: ctx+"/qspecification/qSpecification/materialsadd",
-			data: {"qspecificationId":qspecificationId,"qMaterialsId":qMaterialsId,"qMaterialsName":qMaterialsName,"qMaterialsQuality":qMaterialsQuality,"qMaterialsPrice":qMaterialsPrice},
-			dataType:"JSON",
-				success:function(data){
-					if(data.msg=="保存成功"){
-						alert("原材料添加成功");
-						window.parent.window.isFreshFlag="2";//回写父页面的值
-						//关闭当前窗体
-						parent.$.jBox.close(true);
-					}else{
-						alert("保存失败，请联系管理员");
-					}
+
+			var submit = function (v, h, f) {
+				if (v == 'ok') {
+					$.ajax({
+						type: "POST",
+						url: ctx+"/qspecification/qSpecification/materialsadd",
+						data: {"qspecificationId":qspecificationId,"qMaterialsId":qMaterialsId,"qMaterialsName":qMaterialsName,"qMaterialsQuality":qMaterialsQuality,"qMaterialsPrice":qMaterialsPrice},
+						dataType:"JSON",
+						success:function(data){
+							if(data.msg=="保存成功"){
+								window.parent.window.isFreshFlag="2";//回写父页面的值
+								//关闭当前子窗体
+								parent.$.jBox.close(true);
+							}else{
+								jBox.tip("原料配件添加失败，请联系管理员");
+							}
+						}
+					});
 				}
+				else if (v == 'cancel') {
+					// 取消
+				}
+				return true; //close
+			};
 
-			});
-//			window.parent.openMaterialsWin();                 //调用父窗体方法，当关闭子窗体刷新父窗体
-//			top.$.jBox.close(true);
-
+			jBox.confirm("确定要添加材料配件吗？", "添加提示", submit);
 		}
+
+
 	</script>
 </head>
 <body>

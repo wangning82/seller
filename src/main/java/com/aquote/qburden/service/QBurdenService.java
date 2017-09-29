@@ -44,4 +44,9 @@ public class QBurdenService extends CrudService<QBurdenDao, QBurden> {
 	public void delete(QBurden qBurden) {
 		super.delete(qBurden);
 	}
+	//更新
+	@Transactional(readOnly = false)
+	public void update(QBurden qBurden) {
+		dao.update(qBurden);
+	}
 }
