@@ -22,7 +22,81 @@
 					}
 				}
 			});
+			//成本input
+			var costCid='costC';
+			//利润率input
+			var profitRid='profitR';
+			//利润input
+			var profitPid='profitP';
+			//加工费率input
+			var chargeRid='chargeR';
+			//加工费input
+			var chargePid='chargeP';
+
+
+			//产品的价格
+			var pricePid='priceP';
+			//成本
+			var cost = document.getElementById(costCid).value;
+			//利润
+			var profitPNum = '';
+			//加工费
+			var chargePNum = '';
+
+			//价格
+			var pricePNum ='';
+
+
+			//修改利润触发事件
+			var profitbtn = document.getElementById(profitRid);
+			//修改加工费触发事件
+			var chargebtn = document.getElementById(chargeRid);
+
+//			document.addEventListener("click",function(event){
+//				var target = event.target;
+//				if(target == profitbtn){
+//					alert("hello item1");
+//				}else if(target == chargebtn){
+//					alert("hello item2");
+//				}
+//			})
+
+
+			profitbtn.onchange = function(){
+				//获取利润变化值
+				var profit=document.getElementById(profitRid).value;
+				profitPNum =cost*profit/100;
+				document.getElementById(profitPid).value =profitPNum;
+				//加工费
+				var charge=document.getElementById(chargeRid).value;
+				chargePNum = cost*charge/100;
+				document.getElementById(chargePid).value =chargePNum;
+				//价格
+				document.getElementById(pricePid).value =parseFloat(cost)+ parseFloat(profitPNum)+parseFloat(chargePNum);
+				pricePNum=parseFloat(cost)+ parseFloat(profitPNum)+parseFloat(chargePNum);
+			}
+
+
+			chargebtn.onchange = function(){
+				//获取利润变化值
+				var profit=document.getElementById(profitRid).value;
+				profitPNum =cost*profit/100;
+				document.getElementById(profitPid).value =profitPNum;
+				//加工费
+				var charge=document.getElementById(chargeRid).value;
+				chargePNum = cost*charge/100;
+				document.getElementById(chargePid).value =chargePNum;
+
+				//价格
+				document.getElementById(pricePid).value =parseFloat(cost)+ parseFloat(profitPNum)+parseFloat(chargePNum);
+				pricePNum=parseFloat(cost)+ parseFloat(profitPNum)+parseFloat(chargePNum);
+			}
+
+
 		});
+
+
+
 	</script>
 </head>
 <body>
@@ -63,42 +137,43 @@
 		<div class="control-group">
 			<label class="control-label">成本：</label>
 			<div class="controls">
-				<form:input path="cost" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+				<form:input id="costC"  path="cost" readonly="true" htmlEscape="false" class="input-xlarge" />
 					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">利润率：</label>
 			<div class="controls">
-				<form:input path="profitratio" htmlEscape="false" class="input-xlarge required"/>%
+				<form:input id="profitR" path="profitratio" htmlEscape="true" class="input-xlarge"/>%
+
 				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">利润：</label>
 			<div class="controls">
-				<form:input path="profit" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+				<form:input id="profitP"  path="profit" readonly="true" htmlEscape="false" class="input-xlarge"/>
 					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">加工费率：</label>
 			<div class="controls">
-				<form:input path="chargeratio" htmlEscape="false" class="input-xlarge required"/>%
+				<form:input id="chargeR" path="chargeratio" htmlEscape="true" class="input-xlarge"/>%
 				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">加工费：</label>
 			<div class="controls">
-				<form:input path="charge" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+				<form:input id="chargeP" path="charge" readonly="true" htmlEscape="true" class="input-xlarge"/>
 					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
 		<div class="control-group">
 			<label class="control-label">价格：</label>
 			<div class="controls">
-				<form:input path="price" readonly="true" htmlEscape="false" class="input-xlarge required"/>
+				<form:input id="priceP" path="price"  readonly="true" htmlEscape="false" class="input-xlarge"/>
 					<%--<span class="help-inline"><font color="red">*</font> </span>--%>
 			</div>
 		</div>
@@ -109,10 +184,10 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group" style="display: none">
+		<div class="control-group">
 			<label class="control-label">是否显示：</label>
 			<div class="controls">
-				<form:input path="isShow" htmlEscape="false" maxlength="1"  class="input-xlarge required"/>
+				<form:input path="isShow" htmlEscape="false"  maxlength="5"  class="input-xlarge"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -129,7 +204,9 @@
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="qspecification:qSpecification:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<shiro:hasPermission name="qspecification:qSpecification:edit">
+				<input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;
+			</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>

@@ -3,9 +3,9 @@
  */
 package com.aquote.qspecification.dao;
 
+import com.aquote.qspecification.entity.QSpecification;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.aquote.qspecification.entity.QSpecification;
 
 /**
  * 产品规格管理DAO接口
@@ -14,5 +14,5 @@ import com.aquote.qspecification.entity.QSpecification;
  */
 @MyBatisDao
 public interface QSpecificationDao extends CrudDao<QSpecification> {
-	
+
 }

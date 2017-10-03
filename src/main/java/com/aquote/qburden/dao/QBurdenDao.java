@@ -7,6 +7,8 @@ import com.aquote.qburden.entity.QBurden;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 
+import java.util.List;
+
 /**
  * 产品规格材料DAO接口
  * @author wn
@@ -14,5 +16,5 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
  */
 @MyBatisDao
 public interface QBurdenDao extends CrudDao<QBurden> {
-
+    public List<QBurden> findSpecList(String materialsid);
 }

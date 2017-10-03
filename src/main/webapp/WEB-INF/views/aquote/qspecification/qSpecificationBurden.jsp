@@ -79,22 +79,24 @@
 			$.jBox.confirm("确定删除材料配件吗？", "删除提示", submit);
 		}
 
-		function updateMaterials(qBurdenId,materialsId,materialsUsenum) {
+		function updateMaterials(qBurdenId,specificationId,materialsId,materialsUsenum) {
 			//jbox的保存提示框
 			var submit = function (v, h, f) {
 				if (v == 'ok'){
 					$.ajax({
 						type: "POST",//post请求方式
 						url: ctx+"/qspecification/qSpecification/burdenupdate",//请求的controller
-						data: {"qBurdenId":qBurdenId,"materialsId":materialsId,"materialsUsenum":materialsUsenum},//请求的参数
+						data: {"qBurdenId":qBurdenId,"specificationId":specificationId,"materialsId":materialsId,"materialsUsenum":materialsUsenum},//请求的参数
 						dataType:"JSON",//返回的数据格式
 						success:function(data){
 							if(data.msg=="设置成功"){
 								jBox.tip("设置成功");
 								//刷新页面
 								location.reload();
+							}else if(data.msg=="成本计算失败"){
+								jBox.tip("材料设置失败，请联系管理员");
 							}else{
-								jBox.tip("设置保存失败，请联系管理员");
+								jBox.tip("用量设置失败，请联系管理员");
 							}
 						}
 					});
@@ -150,7 +152,7 @@
 				</td>
 
 				<td style="text-align: center">
-					<input id="updateSubmit" class="btn btn-primary" type="button" onclick="updateMaterials('${qBurden.id}','${qBurden.materialsId}',$('#mUsernum${j.index}').val())" value="保存"/>&nbsp;
+					<input id="updateSubmit" class="btn btn-primary" type="button" onclick="updateMaterials('${qBurden.id}','${qBurden.specificationId}','${qBurden.materialsId}',$('#mUsernum${j.index}').val())" value="保存"/>&nbsp;
 					<input id="addSubmit"${j.index} class="btn btn-primary" type="button" onclick="deleteMaterials('${qBurden.specificationId}','${qBurden.materialsId}')" value="删除"/>&nbsp;
 				</td>
 

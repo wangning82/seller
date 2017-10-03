@@ -3,15 +3,18 @@
  */
 package com.aquote.qspecification.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.alibaba.fastjson.JSONObject;
 import com.aquote.model.entity.QModel;
 import com.aquote.qburden.entity.QBurden;
 import com.aquote.qburden.service.QBurdenService;
 import com.aquote.qmaterials.entity.QMaterials;
 import com.aquote.qmaterials.service.QMaterialsService;
+import com.aquote.qspecification.entity.QSpecification;
+import com.aquote.qspecification.service.QSpecificationService;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,13 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.aquote.qspecification.entity.QSpecification;
-import com.aquote.qspecification.service.QSpecificationService;
-
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,6 +191,7 @@ public class QSpecificationController extends BaseController {
 		Map<String,Object> hashMap = new HashMap<>();
 		try{
 			qBurdenService.delete(qBurden);
+			qSpecificationService.save(setQSpecification(qspecificationId));
 			hashMap.put("msg", "删除成功");
 		}catch(Exception e){
 			System.out.print(e.getMessage());
@@ -202,20 +201,70 @@ public class QSpecificationController extends BaseController {
 	}
 	@ResponseBody
 	@RequestMapping(value = "burdenupdate")
-	public String burdenupdate(QBurden qBurden,String qBurdenId,String materialsId, String materialsUsenum, RedirectAttributes redirectAttributes) {
+	public String burdenupdate(QBurden qBurden,String qBurdenId,String specificationId,String materialsId, String materialsUsenum, RedirectAttributes redirectAttributes) {
 		//添加更新参数
 		qBurden.setId(qBurdenId);
+		qBurden.setSpecificationId(specificationId);
+		//材料id
 		qBurden.setMaterialsId(materialsId);
 		qBurden.setMaterialsUsenum(materialsUsenum);
 		Map<String,Object> hashMap = new HashMap<>();
 		try{
 			qBurdenService.update(qBurden);
+			//改变用量更新规格的成本
+			try {
+				qSpecificationService.save(setQSpecification(specificationId));
+				hashMap.put("msg", "成本计算失败");
+			}catch (Exception e){
+
+			}
 			hashMap.put("msg", "设置成功");
 		}catch(Exception e){
 			System.out.print(e.getMessage());
 			hashMap.put("msg", "设置失败");
 		}
 		return JSONObject.toJSONString(hashMap);
+	}
+	//用量数量的变化带来的成本的变化
+	public QSpecification setQSpecification(String specificationId){
+
+		QSpecification qSpecification = new QSpecification();
+		//设定更新规格的id
+		qSpecification =qSpecificationService.get(specificationId);
+		//设定规格的cost
+		try {
+			//获取规格的所有参数值
+			QBurden qb = new QBurden();
+			qb.setSpecificationId(specificationId);
+			List<QBurden> qBurdenList = qBurdenService.findList(qb);
+			//当一个材料发生变化的时候，计算规格成本，对规格所述的所有材料进行计算
+			double burdenCost =0;
+
+			for(int i=0;i<qBurdenList.size();i++){
+				//获取材料的id
+				String maid = qBurdenList.get(i).getMaterialsId();
+				//获取材料配件的价格
+				double maprice =Double.parseDouble(qMaterialsService.get(maid).getPrice());
+				//计算规格的成本
+				burdenCost= burdenCost+Double.parseDouble(qBurdenList.get(i).getMaterialsUsenum())*maprice;
+
+			}
+			//设定成本
+			qSpecification.setCost(Double.toString(burdenCost));
+
+			//设定利润
+			double burdenProfit =burdenCost*Double.parseDouble(qSpecification.getProfitratio())/100;
+			qSpecification.setProfit(Double.toString(burdenProfit));
+			//设定加工费
+			double burdenCharge =burdenCost*Double.parseDouble(qSpecification.getChargeratio())/100;
+			qSpecification.setCharge(Double.toString(burdenCharge));
+			//设定产品价格
+			double burdenPrice =burdenCost+burdenProfit+burdenCharge;
+			qSpecification.setPrice(Double.toString(burdenPrice));
+		}catch (Exception e){
+			System.out.print(e.getMessage());
+		}
+		return qSpecification;
 	}
 
 

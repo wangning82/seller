@@ -48,5 +48,8 @@ public class QBurdenService extends CrudService<QBurdenDao, QBurden> {
 	public void update(QBurden qBurden) {
 		dao.update(qBurden);
 	}
+	//查询
+	@Transactional(readOnly = false)
+	public List<QBurden> findSpecList(String materialsid) { return dao.findSpecList(materialsid);}
 
 }

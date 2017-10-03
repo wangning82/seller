@@ -19,6 +19,14 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public T get(String id);
+
+
+	/**
+	 * 查询数据列表
+	 * @param materialsid
+	 * @return
+	 */
+	public List<T> findSpecList(String materialsid);
 	
 	/**
 	 * 获取单条数据
@@ -48,6 +56,7 @@ public interface CrudDao<T> extends BaseDao {
 	 */
 	@Deprecated
 	public List<T> findAllList();
+
 	
 	/**
 	 * 插入数据
@@ -78,5 +87,5 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public int delete(T entity);
-	
+
 }

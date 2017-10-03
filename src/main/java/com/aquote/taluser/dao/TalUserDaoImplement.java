@@ -86,6 +86,11 @@ public class TalUserDaoImplement implements TalUserDao {
     }
 
     @Override
+    public List<TalUser> findSpecList(String materialsid) {
+        return null;
+    }
+
+    @Override
     public TalUser get(TalUser entity) {
         return null;
     }
@@ -124,4 +129,5 @@ public class TalUserDaoImplement implements TalUserDao {
     public int delete(TalUser entity) {
         return 0;
     }
+
 }
