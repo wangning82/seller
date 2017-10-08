@@ -87,7 +87,7 @@ public class QMaterialsController extends BaseController {
 		if (!beanValidator(model, qMaterials)){
 			return form(qMaterials, model);
 		}
-		qMaterials.setModelId(qMaterials.getqModel().getId());
+//		qMaterials.setModelId(qMaterials.getModelId());
 
 		this.setQSpecification(qMaterials.getId());
 
@@ -112,8 +112,12 @@ public class QMaterialsController extends BaseController {
 	@RequiresPermissions("qmaterials:qMaterials:edit")
 	@RequestMapping(value = "delete")
 	public String delete(QMaterials qMaterials, RedirectAttributes redirectAttributes) {
-		qMaterialsService.delete(qMaterials);
-		addMessage(redirectAttributes, "删除原材料成功");
+		if(this.qBurdenService.findSpecList(qMaterials.getId()).size()>0){
+			addMessage(redirectAttributes, "原材料被使用中，不能删除！");
+		}else{
+			qMaterialsService.delete(qMaterials);
+			addMessage(redirectAttributes, "删除原材料成功");
+		}
 		return "redirect:"+Global.getAdminPath()+"/qmaterials/qMaterials/?repage";
 	}
 

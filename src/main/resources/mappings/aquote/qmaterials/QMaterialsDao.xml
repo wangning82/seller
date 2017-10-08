@@ -4,7 +4,7 @@
     
 	<sql id="qMaterialsColumns">
 		a.id AS "id",
-		a.model_id AS "model.id",
+		a.model_id AS "modelId",
 		a.name AS "name",
 		a.quality AS "quality",
 		a.sort AS "sort",
