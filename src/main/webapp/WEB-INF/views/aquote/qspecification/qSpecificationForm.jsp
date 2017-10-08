@@ -52,15 +52,6 @@
 			//修改加工费触发事件
 			var chargebtn = document.getElementById(chargeRid);
 
-//			document.addEventListener("click",function(event){
-//				var target = event.target;
-//				if(target == profitbtn){
-//					alert("hello item1");
-//				}else if(target == chargebtn){
-//					alert("hello item2");
-//				}
-//			})
-
 
 			profitbtn.onchange = function(){
 				//获取利润变化值
@@ -91,7 +82,6 @@
 				document.getElementById(pricePid).value =parseFloat(cost)+ parseFloat(profitPNum)+parseFloat(chargePNum);
 				pricePNum=parseFloat(cost)+ parseFloat(profitPNum)+parseFloat(chargePNum);
 			}
-
 
 		});
 

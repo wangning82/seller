@@ -5,6 +5,7 @@ package com.aquote.qspecification.web;
 
 import com.alibaba.fastjson.JSONObject;
 import com.aquote.model.entity.QModel;
+import com.aquote.model.service.QModelService;
 import com.aquote.qburden.entity.QBurden;
 import com.aquote.qburden.service.QBurdenService;
 import com.aquote.qmaterials.entity.QMaterials;
@@ -46,6 +47,8 @@ public class QSpecificationController extends BaseController {
 	private QBurdenService qBurdenService;
 	@Autowired
 	private QMaterialsService qMaterialsService;
+	@Autowired
+	private QModelService qModelService;
 
 	@ModelAttribute
 	public QSpecification get(@RequestParam(required=false) String id) {
@@ -156,6 +159,10 @@ public class QSpecificationController extends BaseController {
 	@RequiresPermissions("qspecification:qSpecification:view")
 	@RequestMapping(value = "form")
 	public String form(QSpecification qSpecification, Model model) {
+		String modelid =this.qSpecificationService.get(qSpecification.getId()).getModelId();
+		QModel qmodel = this.qModelService.get(modelid);
+		qSpecification.setModelId(modelid);
+		qSpecification.setqModel(qmodel);
 		model.addAttribute("qSpecification", qSpecification);
 		return "aquote/qspecification/qSpecificationForm";
 	}
