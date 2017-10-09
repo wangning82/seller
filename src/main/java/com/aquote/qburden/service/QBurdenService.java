@@ -51,5 +51,7 @@ public class QBurdenService extends CrudService<QBurdenDao, QBurden> {
 	//查询
 	@Transactional(readOnly = false)
 	public List<QBurden> findSpecList(String materialsid) { return dao.findSpecList(materialsid);}
-
+	//查询规格包含的参数列表
+	@Transactional(readOnly = false)
+	public List<QBurden> findMaterialsList(String qSpecificationid) {return dao.findMaterialsList(qSpecificationid);	}
 }

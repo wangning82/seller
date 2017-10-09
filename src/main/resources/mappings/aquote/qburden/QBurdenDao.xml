@@ -148,5 +148,16 @@
 
 	</select>
 
+	<select id="findMaterialsList" resultType="QBurden">
+		SELECT
+		<include refid="qBurdenColumns"/>
+		FROM q_burden a
+		WHERE 1=1
+		<if test="_parameter != null and _parameter != ''">
+			AND a.specification_id = #{_parameter}
+		</if>
+
+	</select>
+
 	
 </mapper>

@@ -17,4 +17,7 @@ import java.util.List;
 @MyBatisDao
 public interface QBurdenDao extends CrudDao<QBurden> {
     public List<QBurden> findSpecList(String materialsid);
+
+    public List<QBurden> findMaterialsList(String qSpecificationid);
+
 }

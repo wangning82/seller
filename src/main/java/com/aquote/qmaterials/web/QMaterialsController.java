@@ -99,9 +99,33 @@ public class QMaterialsController extends BaseController {
 			//获取规格相关列表
 			List<QSpecification> qsList =this.setQSpecification(qMaterials.getId());
 			for (int i=0;i<qsList.size();i++){
+				//获得和材料相关的规格对象
+				QSpecification qs = new QSpecification();
+				qs = this.setQSpecification(qMaterials.getId()).get(i);
+				//规格的材料列表
+				List<QBurden> SQmaterilsList = this.qBurdenService.findMaterialsList(qs.getId());
+				//j计算每个规格包含材料的成本和、利润、加工费、价格
+				double costD  =0;
+				double profitD =0;
+				double chargeD =0;
+				double priceD =0;
+				for(int j=0;j<SQmaterilsList.size();j++)
+				{
+					costD = costD+Double.parseDouble(this.qMaterialsService.get(SQmaterilsList.get(j).getMaterialsId()).getPrice())*Double.parseDouble(SQmaterilsList.get(j).getMaterialsUsenum());
+				}
+				//设置成本
+				qs.setCost(String.valueOf(costD));
+				//设置利润
+				profitD = costD*Double.parseDouble(qs.getProfitratio())/100;
+				qs.setProfit(String.valueOf(profitD));
+				//设置加工费
+				chargeD = costD*Double.parseDouble(qs.getChargeratio())/100;
+				qs.setCharge(String.valueOf(chargeD));
+				//设置价格
+				priceD = costD+profitD+chargeD;
+				qs.setPrice(String.valueOf(priceD));
 				//更新每个规格的数据
-				qSpecificationService.save(this.setQSpecification(qMaterials.getId()).get(i));
-
+				qSpecificationService.save(qs);
 			}
 		}catch (Exception e){
 			System.out.printf(e.getMessage());
