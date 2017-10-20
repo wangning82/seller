@@ -51,10 +51,10 @@
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="qModel != null and qModel.id != '' and qModel.name != null">
-				AND (m.id = #{qModel.id}  OR m.parent_ids  LIKE
-					<if test="dbName == 'oracle'">'%,'||#{qModel.id}||',%')</if>
-					<if test="dbName == 'mssql'">'%,'+#{qModel.id}+',%')</if>
-					<if test="dbName == 'mysql'">CONCAT('%',#{qModel.id},'%'))</if>
+				AND m.id = #{qModel.id}
+			</if>
+			<if test="modelId != null and modelId != ''">
+				AND a.model_id = #{modelId}
 			</if>
 			<if test="type != null and type != ''">
 				AND a.type = #{type}

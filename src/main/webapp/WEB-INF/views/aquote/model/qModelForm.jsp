@@ -48,6 +48,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">型号价格：</label>
+			<div class="controls">
+				<form:input path="price" htmlEscape="false" maxlength="100" class="input-xlarge required"/>%
+				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">排序：</label>
 			<div class="controls">
 				<form:input path="sort" htmlEscape="false" class="input-xlarge required"/>

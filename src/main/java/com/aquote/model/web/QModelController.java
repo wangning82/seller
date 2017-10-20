@@ -3,12 +3,15 @@
  */
 package com.aquote.model.web;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.aquote.model.entity.QModel;
+import com.aquote.model.service.QModelService;
+import com.aquote.qspecification.entity.QSpecification;
+import com.aquote.qspecification.service.QSpecificationService;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.web.BaseController;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,13 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.thinkgem.jeesite.common.config.Global;
-import com.thinkgem.jeesite.common.web.BaseController;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.aquote.model.entity.QModel;
-import com.aquote.model.service.QModelService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 产品型号管理Controller
@@ -38,6 +38,9 @@ public class QModelController extends BaseController {
 
 	@Autowired
 	private QModelService qModelService;
+
+	@Autowired
+	private QSpecificationService qSpecificationService;
 	
 	@ModelAttribute
 	public QModel get(@RequestParam(required=false) String id) {
@@ -50,7 +53,6 @@ public class QModelController extends BaseController {
 		}
 		return entity;
 	}
-	
 	@RequiresPermissions("model:qModel:view")
 	@RequestMapping(value = {"list", ""})
 	public String list(QModel qModel, HttpServletRequest request, HttpServletResponse response, Model model) {
@@ -99,8 +101,35 @@ public class QModelController extends BaseController {
 	@RequiresPermissions("model:qModel:edit")
 	@RequestMapping(value = "delete")
 	public String delete(QModel qModel, RedirectAttributes redirectAttributes) {
-		qModelService.delete(qModel);
-		addMessage(redirectAttributes, "删除产品型号管理成功");
+		//判断是否具有下级规格，如果具有规格不能删除此型号
+		//规格数量
+		QSpecification qSpecification = new QSpecification();
+		String strmodel =qModel.getId();
+		qSpecification.setModelId(strmodel);
+		//节点本身是否关联规格
+		int specCount = 0;
+		specCount = qSpecificationService.findList(qSpecification).size();
+
+		//获得所有子节点的列表
+		QModel qm = new QModel();
+		qm.setId(strmodel);
+		List<QModel> childList = qModelService.findList(qm);
+		int parentCount =0;
+		for(int i=0;i<childList.size();i++){
+			//重新modelid赋值
+			qSpecification.setModelId(childList.get(i).getId());
+			//判断子节点中是不是包含规格产品
+			if(qSpecificationService.findList(qSpecification).size()>0){
+				parentCount++;
+			}
+		}
+		//自己是否关联规格，子节点是否关联规格
+		if (specCount+parentCount>0){
+			addMessage(redirectAttributes, "产品型号下包含了规格，请删除规格后在进行型号删除操作！");
+		}else {
+			qModelService.delete(qModel);
+			addMessage(redirectAttributes, "删除产品型号成功");
+		}
 		return "redirect:"+Global.getAdminPath()+"/model/qModel/?repage";
 	}
 

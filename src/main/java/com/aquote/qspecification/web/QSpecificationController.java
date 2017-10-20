@@ -159,10 +159,12 @@ public class QSpecificationController extends BaseController {
 	@RequiresPermissions("qspecification:qSpecification:view")
 	@RequestMapping(value = "form")
 	public String form(QSpecification qSpecification, Model model) {
-		String modelid =this.qSpecificationService.get(qSpecification.getId()).getModelId();
-		QModel qmodel = this.qModelService.get(modelid);
-		qSpecification.setModelId(modelid);
-		qSpecification.setqModel(qmodel);
+		if(qSpecification.getId()!= null&&qSpecification.getId().equals("")){
+			String modelid =this.qSpecificationService.get(qSpecification.getId()).getModelId();
+			QModel qmodel = this.qModelService.get(modelid);
+			qSpecification.setModelId(modelid);
+			qSpecification.setqModel(qmodel);
+		}
 		model.addAttribute("qSpecification", qSpecification);
 		return "aquote/qspecification/qSpecificationForm";
 	}

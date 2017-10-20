@@ -4,10 +4,10 @@
 package com.aquote.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import javax.validation.constraints.NotNull;
+import com.thinkgem.jeesite.common.persistence.TreeEntity;
 import org.hibernate.validator.constraints.Length;
 
-import com.thinkgem.jeesite.common.persistence.TreeEntity;
+import javax.validation.constraints.NotNull;
 
 /**
  * 产品型号管理Entity
@@ -20,6 +20,7 @@ public class QModel extends TreeEntity<QModel> {
 	private QModel parent;		// 父级编号
 	private String parentIds;		// 所有父级编号
 	private String name;		// 型号名称
+	private String price;		// 型号价格
 	private Integer sort;		// 排序
 	private String isShow;		// 是否在规格中显示
 	private String permission;		// 权限标识
@@ -58,6 +59,14 @@ public class QModel extends TreeEntity<QModel> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 	@NotNull

@@ -7,6 +7,7 @@
 		a.parent_id AS "parent.id",
 		a.parent_ids AS "parentIds",
 		a.name AS "name",
+		a.price AS "price",
 		a.sort AS "sort",
 		a.is_show AS "isShow",
 		a.permission AS "permission",
@@ -40,6 +41,12 @@
 			a.del_flag = #{DEL_FLAG_NORMAL}
 			<if test="parent != null and parent.id != null and parent.id != ''">
 				AND a.parent_id = #{parent.id}
+			</if>
+			<if test="id != null and id != ''">
+				AND a.parent_ids LIKE
+				<if test="dbName == 'oracle'">'%'||#{id }||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{id},'%')</if>
 			</if>
 			<if test="parentIds != null and parentIds != ''">
 				AND a.parent_ids LIKE 
@@ -94,6 +101,7 @@
 			parent_id,
 			parent_ids,
 			name,
+			price,
 			sort,
 			is_show,
 			permission,
@@ -108,6 +116,7 @@
 			#{parent.id},
 			#{parentIds},
 			#{name},
+			#{price},
 			#{sort},
 			#{isShow},
 			#{permission},
@@ -125,6 +134,7 @@
 			parent_id = #{parent.id},
 			parent_ids = #{parentIds},
 			name = #{name},
+			price = #{price},
 			sort = #{sort},
 			is_show = #{isShow},
 			permission = #{permission},
@@ -144,7 +154,7 @@
 	<update id="delete">
 		UPDATE q_model SET 
 			del_flag = #{DEL_FLAG_DELETE}
-		WHERE id = #{id} OR parent_ids LIKE '%,'||#{id}||',%'
+		WHERE id = #{id} OR parent_ids LIKE concat('%',#{id},'%')
 	</update>
 	
 </mapper>

@@ -61,6 +61,7 @@
 		<thead>
 			<tr>
 				<th>型号名称</th>
+				<th>型号价格</th>
 				<th>排序</th>
 				<th>创建者</th>
 				<th>创建时间</th>
@@ -77,10 +78,13 @@
 				{{row.name}}
 			</a></td>
 			<td>
+				{{row.price}}%
+			</td>
+			<td>
 				{{row.sort}}
 			</td>
 			<td>
-				{{row.createBy}}
+				{{row.createBy.name}}
 			</td>
 			<td>
 				{{row.createDate}}

@@ -43,7 +43,6 @@ public class PaginationInterceptor extends BaseInterceptor {
             Object parameter = invocation.getArgs()[1];
             BoundSql boundSql = mappedStatement.getBoundSql(parameter);
             Object parameterObject = boundSql.getParameterObject();
-
             //获取分页参数对象
             Page<Object> page = null;
             if (parameterObject != null) {
