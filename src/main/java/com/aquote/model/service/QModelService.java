@@ -3,15 +3,14 @@
  */
 package com.aquote.model.service;
 
-import java.util.List;
-
+import com.aquote.model.dao.QModelDao;
+import com.aquote.model.entity.QModel;
+import com.thinkgem.jeesite.common.service.TreeService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.service.TreeService;
-import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.aquote.model.entity.QModel;
-import com.aquote.model.dao.QModelDao;
+import java.util.List;
 
 /**
  * 产品型号管理Service
@@ -32,7 +31,11 @@ public class QModelService extends TreeService<QModelDao, QModel> {
 		}
 		return super.findList(qModel);
 	}
-	
+
+	public List<QModel> findListById(String modelid){
+		return dao.findListById(modelid);
+	}
+
 	@Transactional(readOnly = false)
 	public void save(QModel qModel) {
 		super.save(qModel);

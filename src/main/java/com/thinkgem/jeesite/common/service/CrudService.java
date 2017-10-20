@@ -89,4 +89,5 @@ public abstract class CrudService<D extends CrudDao<T>, T extends DataEntity<T>>
 		dao.delete(entity);
 	}
 
+
 }

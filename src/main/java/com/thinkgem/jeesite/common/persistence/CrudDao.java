@@ -3,6 +3,8 @@
  */
 package com.thinkgem.jeesite.common.persistence;
 
+import com.aquote.model.entity.QModel;
+
 import java.util.List;
 
 /**
@@ -27,6 +29,13 @@ public interface CrudDao<T> extends BaseDao {
 	 * @return
 	 */
 	public List<T> findSpecList(String materialsid);
+
+	/**
+	 * 查询modelid的所有model数据列表
+	 * @param modelid
+	 * @return
+	 */
+	List<QModel> findListById(String modelid);
 	
 	/**
 	 * 获取单条数据

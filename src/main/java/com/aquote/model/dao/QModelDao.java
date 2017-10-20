@@ -3,10 +3,10 @@
  */
 package com.aquote.model.dao;
 
+import com.aquote.model.entity.QModel;
 import com.thinkgem.jeesite.common.persistence.TreeDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.aquote.model.entity.QModel;
-
+import java.util.List;
 /**
  * 产品型号管理DAO接口
  * @author wn
@@ -14,5 +14,6 @@ import com.aquote.model.entity.QModel;
  */
 @MyBatisDao
 public interface QModelDao extends TreeDao<QModel> {
-	
+
+ public List<QModel> findListById(String modelid);
 }

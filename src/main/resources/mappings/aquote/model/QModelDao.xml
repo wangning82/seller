@@ -43,10 +43,10 @@
 				AND a.parent_id = #{parent.id}
 			</if>
 			<if test="id != null and id != ''">
-				AND a.parent_ids LIKE
+				AND (a.id = #{id} OR a.parent_ids LIKE
 				<if test="dbName == 'oracle'">'%'||#{id }||'%'</if>
 				<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
-				<if test="dbName == 'mysql'">concat('%',#{id},'%')</if>
+				<if test="dbName == 'mysql'">concat('%',#{id},'%'))</if>
 			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
@@ -60,6 +60,24 @@
 					<if test="dbName == 'mssql'">'%'+#{createBy.id}+'%'</if>
 					<if test="dbName == 'mysql'">concat('%',#{createBy.id},'%')</if>
 			</if>
+		</where>
+		ORDER BY a.sort ASC
+	</select>
+
+	<select id="findListById" resultType="QModel">
+		SELECT
+		<include refid="qModelColumns"/>
+		FROM q_model a
+		<include refid="qModelJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="_parameter != null and _parameter != ''">
+				AND  a.id=#{_parameter} OR a.parent_ids LIKE
+				<if test="dbName == 'oracle'">'%'||#{_parameter }||'%'</if>
+				<if test="dbName == 'mssql'">'%'+#{_parameter}+'%'</if>
+				<if test="dbName == 'mysql'">concat('%',#{_parameter},'%')</if>
+			</if>
+
 		</where>
 		ORDER BY a.sort ASC
 	</select>

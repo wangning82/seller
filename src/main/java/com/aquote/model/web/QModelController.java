@@ -7,6 +7,7 @@ import com.aquote.model.entity.QModel;
 import com.aquote.model.service.QModelService;
 import com.aquote.qspecification.entity.QSpecification;
 import com.aquote.qspecification.service.QSpecificationService;
+import com.aquote.qspecification.web.QSpecificationController;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.thinkgem.jeesite.common.config.Global;
@@ -41,7 +42,10 @@ public class QModelController extends BaseController {
 
 	@Autowired
 	private QSpecificationService qSpecificationService;
-	
+
+	@Autowired
+	private QSpecificationController qSpecificationController;
+
 	@ModelAttribute
 	public QModel get(@RequestParam(required=false) String id) {
 		QModel entity = null;
@@ -93,8 +97,21 @@ public class QModelController extends BaseController {
 		if (!beanValidator(model, qModel)){
 			return form(qModel, model);
 		}
-		//型号价格的调整
-		qModelService.save(qModel);
+		QModel qm = new QModel();
+		qm.setId(qModel.getId());
+		//型号价格的调整,子列表
+		List<QModel> childQmodel = qModelService.findList(qm);
+		//获取当前型号的的价格
+		String strPrice =qModel.getPrice();
+		for(int i=0;i<childQmodel.size();i++){
+			//设置每个型号的价格，为当前设置的型号的价格
+			childQmodel.get(i).setPrice(strPrice);
+			//更新所有型号价格进行保存
+			qModelService.save(childQmodel.get(i));
+		}
+
+		//规格价钱变化
+//		qSpecificationController.setQSpecification();
 		addMessage(redirectAttributes, "保存产品型号管理成功");
 		return "redirect:"+Global.getAdminPath()+"/model/qModel/?repage";
 	}

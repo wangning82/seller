@@ -3,14 +3,13 @@
  */
 package com.thinkgem.jeesite.common.service;
 
-import java.util.List;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import com.thinkgem.jeesite.common.persistence.TreeDao;
 import com.thinkgem.jeesite.common.persistence.TreeEntity;
 import com.thinkgem.jeesite.common.utils.Reflections;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service基类
@@ -79,5 +78,4 @@ public abstract class TreeService<D extends TreeDao<T>, T extends TreeEntity<T>>
 	protected void preUpdateChild(T entity, T childEntity) {
 		
 	}
-
 }

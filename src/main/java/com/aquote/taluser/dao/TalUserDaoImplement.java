@@ -1,5 +1,6 @@
 package com.aquote.taluser.dao;
 
+import com.aquote.model.entity.QModel;
 import com.aquote.taluser.entity.TalUser;
 
 import java.sql.Connection;
@@ -87,6 +88,11 @@ public class TalUserDaoImplement implements TalUserDao {
 
     @Override
     public List<TalUser> findSpecList(String materialsid) {
+        return null;
+    }
+
+    @Override
+    public List<QModel> findListById(String modelid) {
         return null;
     }
 
