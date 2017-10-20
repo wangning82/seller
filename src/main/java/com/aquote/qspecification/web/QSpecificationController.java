@@ -172,13 +172,16 @@ public class QSpecificationController extends BaseController {
 	@RequiresPermissions("qspecification:qSpecification:edit")
 	@RequestMapping(value = "save")
 	public String save(QSpecification qSpecification, HttpServletRequest request, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, qSpecification)){
-			return form(qSpecification, model);
-		}
+//		if (!beanValidator(model, qSpecification)){
+//			return form(qSpecification, model);
+//		}
 		//
 		qSpecification.setqModel(new QModel(request.getParameter("qModel.id")));
-		qSpecification.setModelId(request.getParameter("qModel.id"));
-		qSpecificationService.save(qSpecification);
+		if(request.getParameter("qModel.id")!=""&&request.getParameter("qModel.id")!=null){
+			qSpecification.setModelId(request.getParameter("qModel.id"));
+		}
+
+		qSpecificationService.save(setQSpecification(qSpecification.getId()));
 		addMessage(redirectAttributes, "保存产品规格成功");
 		return "redirect:"+Global.getAdminPath()+"/qspecification/qSpecification/?repage";
 	}
@@ -258,6 +261,9 @@ public class QSpecificationController extends BaseController {
 				burdenCost= burdenCost+Double.parseDouble(qBurdenList.get(i).getMaterialsUsenum())*maprice;
 
 			}
+			//获取型号的价格变动
+			String modelprice =qModelService.get(qSpecification.getModelId()).getPrice();
+			burdenCost = burdenCost*(100+Double.parseDouble(modelprice))/100;
 			//设定成本
 			qSpecification.setCost(Double.toString(burdenCost));
 
@@ -267,6 +273,7 @@ public class QSpecificationController extends BaseController {
 			//设定加工费
 			double burdenCharge =burdenCost*Double.parseDouble(qSpecification.getChargeratio())/100;
 			qSpecification.setCharge(Double.toString(burdenCharge));
+
 			//设定产品价格
 			double burdenPrice =burdenCost+burdenProfit+burdenCharge;
 			qSpecification.setPrice(Double.toString(burdenPrice));

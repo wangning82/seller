@@ -48,12 +48,6 @@
 				<if test="dbName == 'mssql'">'%'+#{id}+'%'</if>
 				<if test="dbName == 'mysql'">concat('%',#{id},'%')</if>
 			</if>
-			<if test="parentIds != null and parentIds != ''">
-				AND a.parent_ids LIKE 
-					<if test="dbName == 'oracle'">'%'||#{parentIds}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{parentIds}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{parentIds},'%')</if>
-			</if>
 			<if test="name != null and name != ''">
 				AND a.name LIKE 
 					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>

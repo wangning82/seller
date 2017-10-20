@@ -93,6 +93,7 @@ public class QModelController extends BaseController {
 		if (!beanValidator(model, qModel)){
 			return form(qModel, model);
 		}
+		//型号价格的调整
 		qModelService.save(qModel);
 		addMessage(redirectAttributes, "保存产品型号管理成功");
 		return "redirect:"+Global.getAdminPath()+"/model/qModel/?repage";

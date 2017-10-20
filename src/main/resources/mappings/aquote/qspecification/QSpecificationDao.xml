@@ -54,7 +54,7 @@
 				AND m.id = #{qModel.id}
 			</if>
 			<if test="modelId != null and modelId != ''">
-				AND a.model_id = #{modelId}
+				AND a.model_id = #{qModelId}
 			</if>
 			<if test="type != null and type != ''">
 				AND a.type = #{type}
