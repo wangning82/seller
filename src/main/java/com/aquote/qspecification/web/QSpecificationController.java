@@ -179,6 +179,7 @@ public class QSpecificationController extends BaseController {
 		qSpecification.setqModel(new QModel(request.getParameter("qModel.id")));
 		if(request.getParameter("qModel.id")!=""&&request.getParameter("qModel.id")!=null){
 			qSpecification.setModelId(request.getParameter("qModel.id"));
+			qSpecificationService.save(qSpecification);
 		}
 
 		qSpecificationService.save(setQSpecification(qSpecification.getId()));

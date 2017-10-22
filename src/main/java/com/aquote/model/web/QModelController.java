@@ -108,10 +108,20 @@ public class QModelController extends BaseController {
 			childQmodel.get(i).setPrice(strPrice);
 			//更新所有型号价格进行保存
 			qModelService.save(childQmodel.get(i));
+			//遍历每个型号的包含了规格，进行修改
+			QSpecification qSpecification = new QSpecification();
+			qSpecification.setModelId(childQmodel.get(i).getId());
+			List<QSpecification> qspeList = qSpecificationService.findList(qSpecification);
+			for(int j=0;j<qspeList.size();j++){
+				QSpecification qs = qSpecificationController.setQSpecification(qspeList.get(j).getId());
+				qs.setPrice(Double.toString(Double.parseDouble(qs.getPrice())*Double.parseDouble(strPrice)));
+				qSpecificationService.save(qs);
+			}
+
 		}
 
 		//规格价钱变化
-//		qSpecificationController.setQSpecification();
+
 		addMessage(redirectAttributes, "保存产品型号管理成功");
 		return "redirect:"+Global.getAdminPath()+"/model/qModel/?repage";
 	}
