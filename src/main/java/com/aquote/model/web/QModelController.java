@@ -97,27 +97,34 @@ public class QModelController extends BaseController {
 		if (!beanValidator(model, qModel)){
 			return form(qModel, model);
 		}
-		QModel qm = new QModel();
-		qm.setId(qModel.getId());
-		//型号价格的调整,子列表
-		List<QModel> childQmodel = qModelService.findList(qm);
-		//获取当前型号的的价格
-		String strPrice =qModel.getPrice();
-		for(int i=0;i<childQmodel.size();i++){
-			//设置每个型号的价格，为当前设置的型号的价格
-			childQmodel.get(i).setPrice(strPrice);
-			//更新所有型号价格进行保存
-			qModelService.save(childQmodel.get(i));
-			//遍历每个型号的包含了规格，进行修改
-			QSpecification qSpecification = new QSpecification();
-			qSpecification.setModelId(childQmodel.get(i).getId());
-			List<QSpecification> qspeList = qSpecificationService.findList(qSpecification);
-			for(int j=0;j<qspeList.size();j++){
-				QSpecification qs = qSpecificationController.setQSpecification(qspeList.get(j).getId());
-				qs.setPrice(Double.toString(Double.parseDouble(qs.getPrice())*Double.parseDouble(strPrice)));
-				qSpecificationService.save(qs);
-			}
+		//判断是新增还是修改
+		if(qModel.getId()==null||qModel.getId().equals("")){
+			//新增
+			qModelService.save(qModel);
+		}else{
+			//修改
+			QModel qm = new QModel();
+			qm.setId(qModel.getId());
+			//型号价格的调整,子列表
+			List<QModel> childQmodel = qModelService.findList(qm);
+			//获取当前型号的的价格
+			String strPrice =qModel.getPrice();
+			for(int i=0;i<childQmodel.size();i++){
+				//设置每个型号的价格，为当前设置的型号的价格
+				childQmodel.get(i).setPrice(strPrice);
+				//更新所有型号价格进行保存
+				qModelService.save(childQmodel.get(i));
+				//遍历每个型号的包含了规格，进行修改
+				QSpecification qSpecification = new QSpecification();
+				qSpecification.setModelId(childQmodel.get(i).getId());
+				List<QSpecification> qspeList = qSpecificationService.findList(qSpecification);
+				for(int j=0;j<qspeList.size();j++){
+					QSpecification qs = qSpecificationController.setQSpecification(qspeList.get(j).getId());
+					qs.setPrice(Double.toString(Double.parseDouble(qs.getPrice())*Double.parseDouble(strPrice)));
+					qSpecificationService.save(qs);
+				}
 
+			}
 		}
 
 		//规格价钱变化

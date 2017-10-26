@@ -19,8 +19,8 @@
 </head>
 <body>
 	<ul class="nav nav-tabs">
-		<li class="active"><a href="${ctx}/qspecification/qSpecification/">产品规格列表</a></li>
-		<shiro:hasPermission name="qspecification:qSpecification:edit"><li><a href="${ctx}/qspecification/qSpecification/form">产品规格添加</a></li></shiro:hasPermission>
+		<li class="active"><a href="${ctx}/qspecification/qSpecification/pricelist">产品规格列表</a></li>
+		<%--<shiro:hasPermission name="qspecification:qSpecification:edit"><li><a href="${ctx}/qspecification/qSpecification/form">产品规格添加</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="qSpecification" action="${ctx}/qspecification/qSpecification/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -62,18 +62,18 @@
 				<th style="text-align: center">归属型号</th>
 				<th style="text-align: center">产品规格</th>
 				<th style="text-align: center">规格等级</th>
-				<th style="text-align: center;background-color: #00A6C7">产品成本(元)</th>
-				<th style="text-align: center">利润率(%)</th>
-				<th style="text-align: center;background-color: #00aa00">利润(元)</th>
-				<th style="text-align: center">加工费(%)</th>
-				<th style="text-align: center;background-color: #1ABC9C">加工费(元)</th>
+				<%--<th style="text-align: center;background-color: #00A6C7">产品成本(元)</th>--%>
+				<%--<th style="text-align: center">利润率(%)</th>--%>
+				<%--<th style="text-align: center;background-color: #00aa00">利润(元)</th>--%>
+				<%--<th style="text-align: center">加工费(%)</th>--%>
+				<%--<th style="text-align: center;background-color: #1ABC9C">加工费(元)</th>--%>
 				<th style="text-align: center;background-color: #e7a413">产品价格(元)</th>
 				<%--<th style="text-align: center">创建者</th>--%>
 				<%--<th style="text-align: center">创建时间</th>--%>
 				<th style="text-align: center">更新时间</th>
 				<th style="text-align: center">备注信息</th>
 				<shiro:hasPermission name="qspecification:qSpecification:edit"><th style="text-align: center">操作</th></shiro:hasPermission>
-				<th style="text-align: center">产品配料</th>
+				<%--<th style="text-align: center">产品配料</th>--%>
 			</tr>
 		</thead>
 		<tbody>
@@ -88,27 +88,27 @@
 				<td>
 					${qSpecification.qModel.name}
 				</td>
-				<td><a href="${ctx}/qspecification/qSpecification/form?id=${qSpecification.id}">
+				<td>
 					${qSpecification.name}
-				</a></td>
+				</td>
 				<td>
 					${qSpecification.type}
 				</td>
-				<td id="costid"  style="background-color: #00A6C7">
-					${qSpecification.cost}
-				</td>
-				<td style="background-color: #00aa00">
-					${qSpecification.profitratio}%
-				</td>
-				<td style="background-color: #00aa00">
-					${qSpecification.profit}
-				</td>
-				<td style="background-color: #1ABC9C">
-					${qSpecification.chargeratio}%
-				</td>
-				<td style="background-color: #1ABC9C">
-					${qSpecification.charge}
-				</td>
+				<%--<td id="costid"  style="background-color: #00A6C7">--%>
+					<%--${qSpecification.cost}--%>
+				<%--</td>--%>
+				<%--<td style="background-color: #00aa00">--%>
+					<%--${qSpecification.profitratio}%--%>
+				<%--</td>--%>
+				<%--<td style="background-color: #00aa00">--%>
+					<%--${qSpecification.profit}--%>
+				<%--</td>--%>
+				<%--<td style="background-color: #1ABC9C">--%>
+					<%--${qSpecification.chargeratio}%--%>
+				<%--</td>--%>
+				<%--<td style="background-color: #1ABC9C">--%>
+					<%--${qSpecification.charge}--%>
+				<%--</td>--%>
 				<td style="background-color: #e7a413">
 					${qSpecification.price}
 				</td>
@@ -127,18 +127,18 @@
 				<shiro:hasPermission name="qspecification:qSpecification:edit">
 					<td style="text-align: center">
     					<a href="${ctx}/qspecification/qSpecification/form?id=${qSpecification.id}">修改</a>
-						<a href="${ctx}/qspecification/qSpecification/delete?id=${qSpecification.id}" onclick="return confirmx('确认要删除该产品规格吗？', this.href)">删除</a>
+						<%--<a href="${ctx}/qspecification/qSpecification/delete?id=${qSpecification.id}" onclick="return confirmx('确认要删除该产品规格吗？', this.href)">删除</a>--%>
 					</td>
 				</shiro:hasPermission>
 
-				<shiro:hasPermission name="qspecification:qSpecification:edit">
-				<td  style="text-align: center">
-					<%--A標籤的方式--%>
-							<%--<a href="${ctx}/qspecification/qSpecification/burden?id=${qSpecification.id}">配料</a>--%>
-					<%--按鈕的方式--%>
-					<input id="openMaterials" class="btn btn-primary" type="button" value="配料" onclick="window.location='${ctx}/qspecification/qSpecification/burdenlist?id=${qSpecification.id}'"/>
-				</td>
-				</shiro:hasPermission>
+				<%--<shiro:hasPermission name="qspecification:qSpecification:edit">--%>
+				<%--<td  style="text-align: center">--%>
+					<%--&lt;%&ndash;A標籤的方式&ndash;%&gt;--%>
+							<%--&lt;%&ndash;<a href="${ctx}/qspecification/qSpecification/burden?id=${qSpecification.id}">配料</a>&ndash;%&gt;--%>
+					<%--&lt;%&ndash;按鈕的方式&ndash;%&gt;--%>
+					<%--<input id="openMaterials" class="btn btn-primary" type="button" value="配料" onclick="window.location='${ctx}/qspecification/qSpecification/burdenlist?id=${qSpecification.id}'"/>--%>
+				<%--</td>--%>
+				<%--</shiro:hasPermission>--%>
 
 			</tr>
 		</c:forEach>

@@ -157,6 +157,15 @@ public class QSpecificationController extends BaseController {
 	}
 
 	@RequiresPermissions("qspecification:qSpecification:view")
+	@RequestMapping(value = {"pricelist", ""})
+	public String pricelist(QSpecification qSpecification, HttpServletRequest request, HttpServletResponse response, Model model) {
+		Page<QSpecification> page = qSpecificationService.findPage(new Page<QSpecification>(request, response), qSpecification);
+		model.addAttribute("qSpecification", qSpecification);
+		model.addAttribute("page", page);
+		return "aquote/qspecification/qSpecificationListPrice";
+	}
+
+	@RequiresPermissions("qspecification:qSpecification:view")
 	@RequestMapping(value = "form")
 	public String form(QSpecification qSpecification, Model model) {
 		if(qSpecification.getId()!= null&&qSpecification.getId().equals("")){
