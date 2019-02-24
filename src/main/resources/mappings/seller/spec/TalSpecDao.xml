@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seller.spec.dao.TalSpecDao">
+    
+	<sql id="talSpecColumns">
+		a.id AS "id",
+		a.user AS "user",
+		a.spec AS "spec",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="talSpecJoins">
+		LEFT JOIN sys_user u ON u.id = a.user
+	</sql>
+    
+	<select id="get" resultType="TalSpec">
+		SELECT 
+			<include refid="talSpecColumns"/>
+		FROM tal_spec a
+		<include refid="talSpecJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TalSpec">
+		SELECT 
+			<include refid="talSpecColumns"/>
+		FROM tal_spec a
+		<include refid="talSpecJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="spec != null and spec != ''">
+				AND a.spec LIKE 
+					<if test="dbName == 'oracle'">'%'||#{spec}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{spec}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{spec},'%')</if>
+			</if>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.user = #{user.id}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TalSpec">
+		SELECT 
+			<include refid="talSpecColumns"/>
+		FROM tal_spec a
+		<include refid="talSpecJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tal_spec(
+			id,
+			user,
+			spec,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{spec},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tal_spec SET 	
+			spec = #{spec},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tal_spec SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

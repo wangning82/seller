@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seller.productinven.dao.TalProductDao">
+    
+	<sql id="talProductColumns">
+		a.id AS "id",
+		a.user AS "user.id",
+		a.productname AS "productname",
+		a.modelnum AS "modelnum",
+		a.colorname AS "colorname",
+		a.specification AS "specification",
+		a.texture AS "texture",
+		a.cost AS "cost",
+		a.tallinventory AS "tallinventory",
+		a.nowinventory AS "nowinventory",
+		a.price AS "price",
+		a.picture AS "picture",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="talProductJoins">
+		LEFT JOIN sys_user u ON u.id = a.user
+	</sql>
+    
+	<select id="get" resultType="TalProduct">
+		SELECT 
+			<include refid="talProductColumns"/>
+		FROM tal_product a
+		<include refid="talProductJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TalProduct">
+		SELECT 
+			<include refid="talProductColumns"/>
+		FROM tal_product a
+		<include refid="talProductJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="productname != null and productname != ''">
+				AND a.productname LIKE 
+					<if test="dbName == 'oracle'">'%'||#{productname}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{productname}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{productname},'%')</if>
+			</if>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.user = #{user.id}
+			</if>
+			<if test="modelnum != null and modelnum != ''">
+				AND a.modelnum = #{modelnum}
+			</if>
+			<if test="colorname != null and colorname != ''">
+				AND a.colorname = #{colorname}
+			</if>
+			<if test="specification != null and specification != ''">
+				AND a.specification = #{specification}
+			</if>
+			<if test="texture != null and texture != ''">
+				AND a.texture = #{texture}
+			</if>
+			<if test="tallinventory != null and tallinventory != ''">
+				AND a.tallinventory &lt;= #{tallinventory}
+			</if>
+			<if test="nowinventory != null and nowinventory != ''">
+				AND a.nowinventory &lt;= #{nowinventory}
+			</if>
+			<if test="beginUpdateDate != null and endUpdateDate != null and beginUpdateDate != '' and endUpdateDate != ''">
+				AND a.update_date BETWEEN #{beginUpdateDate} AND #{endUpdateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TalProduct">
+		SELECT 
+			<include refid="talProductColumns"/>
+		FROM tal_product a
+		<include refid="talProductJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date
+			</otherwise>
+		</choose>
+	</select>
+
+	
+	<insert id="insert">
+		INSERT INTO tal_product(
+			id,
+			user,
+			productname,
+			modelnum,
+			colorname,
+			specification,
+			texture,
+			cost,
+			tallinventory,
+			nowinventory,
+			price,
+			picture,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{productname},
+			#{modelnum},
+			#{colorname},
+			#{specification},
+			#{texture},
+			#{cost},
+			#{tallinventory},
+			#{nowinventory},
+			#{price},
+			#{picture},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tal_product SET 	
+			productname = #{productname},
+			modelnum = #{modelnum},
+			colorname = #{colorname},
+			specification = #{specification},
+			texture = #{texture},
+			cost = #{cost},
+			tallinventory = #{tallinventory},
+			nowinventory = #{nowinventory},
+			price = #{price},
+			picture = #{picture},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tal_product SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

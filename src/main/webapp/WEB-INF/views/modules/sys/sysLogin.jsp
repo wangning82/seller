@@ -53,11 +53,12 @@
 			<label id="loginError" class="error">${message}</label>
 		</div>
 	</div>
-	<h1 class="form-signin-heading"  style="padding-top: 80px">${fns:getConfig('productName')}</h1>
+
     <div class="dgs12" >
-   <div class="denglu_s" style=" padding-top:220px;">
+		<h1 class="form-signin-heading"  style="padding-top: 50px">${fns:getConfig('productName')}</h1>
+   <div class="denglu_s" style=" padding-top:70px;">
 	<form  id="loginForm" class=" " action="${ctx}/login" method="post">
-		
+
 		<div class="noankuan ">
 			<div class="denglu_ss1"></div>
 			<input  style="background:#0975D0; border:0px; line-height:35px; color:#FFFFFF;"  type="text" id="username" name="username" class="input-block-level required shukuan" placeholder="请输入用户名" value="${username}">
@@ -73,15 +74,14 @@
             	<sys:validateCode name="validateCode" inputCssStyle="margin-bottom:0;"/>
 			</div>
 		</c:if>
-
-        <input class="btn btn-large btn-primary an" type="submit"  style="width:305px; margin-top:13px;
-" value="登 录"/>&nbsp;&nbsp;
+		<div><input class="btn btn-large btn-primary an" type="submit"  style="width:305px; margin-top:13px;margin-left: 0px" value="登 录"/>&nbsp;&nbsp;</div>
 
 	</form>
+	   <%--<input class="btn btn-large" type="submit"  style="width:305px;height: 40px" value="生产企业注册" onclick="window.location='${ctxUser}/taluser/userRegiterForm.jsp'"/>&nbsp;&nbsp;--%>
     </div>
     </div>
 	<div class="footer">
-	技术支持：${fns:getConfig('copyrightYear')}    &nbsp;&nbsp;   &nbsp;&nbsp;     版权所有：${fns:getConfig('version')}
+	技术支持：${fns:getConfig('copyrightYear')}    &nbsp;&nbsp;   &nbsp;&nbsp;   版权所有：${fns:getConfig('version')}
 	</div>
 	<script src="${ctxStatic}/flash/zoom.min.js" type="text/javascript"></script>
 	</div>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seller.modelnum.dao.TalModelnumDao">
+    
+	<sql id="talModelnumColumns">
+		a.id AS "id",
+		a.user AS "user.id",
+		a.modelnum AS "modelnum",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="talModelnumJoins">
+		LEFT JOIN sys_user u ON u.id = a.user
+	</sql>
+    
+	<select id="get" resultType="TalModelnum">
+		SELECT 
+			<include refid="talModelnumColumns"/>
+		FROM tal_modelnum a
+		<include refid="talModelnumJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TalModelnum">
+		SELECT 
+			<include refid="talModelnumColumns"/>
+		FROM tal_modelnum a
+		<include refid="talModelnumJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="modelnum != null and modelnum != ''">
+				AND a.modelnum LIKE 
+					<if test="dbName == 'oracle'">'%'||#{modelnum}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{modelnum}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{modelnum},'%')</if>
+			</if>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.user = #{user.id}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TalModelnum">
+		SELECT 
+			<include refid="talModelnumColumns"/>
+		FROM tal_modelnum a
+		<include refid="talModelnumJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tal_modelnum(
+			id,
+			user,
+			modelnum,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{modelnum},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tal_modelnum SET 	
+			modelnum = #{modelnum},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tal_modelnum SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

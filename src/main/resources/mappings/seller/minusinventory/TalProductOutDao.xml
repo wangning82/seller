@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.seller.minusinventory.dao.TalProductOutDao">
+    
+	<sql id="talProductOutColumns">
+		a.id AS "id",
+		a.user AS "user.id",
+		a.product AS "product.id",
+		a.minusinventory AS "minusinventory",
+		a.unitprice AS "unitprice",
+		a.talprice AS "talprice",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="talProductOutJoins">
+		LEFT JOIN sys_user u ON u.id = a.user
+	</sql>
+    
+	<select id="get" resultType="TalProductOut">
+		SELECT 
+			<include refid="talProductOutColumns"/>
+		FROM tal_product_out a
+		<include refid="talProductOutJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TalProductOut">
+		SELECT 
+			<include refid="talProductOutColumns"/>
+		FROM tal_product_out a
+		<include refid="talProductOutJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="product != null and product != ''">
+				AND a.product = #{product.id}
+			</if>
+			<if test="user != null and user.id != null and user.id != ''">
+				AND a.user = #{user.id}
+			</if>
+			<if test="beginCreateDate != null and endCreateDate != null and beginCreateDate != '' and endCreateDate != ''">
+				AND a.create_date BETWEEN #{beginCreateDate} AND #{endCreateDate}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TalProductOut">
+		SELECT 
+			<include refid="talProductOutColumns"/>
+		FROM tal_product_out a
+		<include refid="talProductOutJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO tal_product_out(
+			id,
+			user,
+			product,
+			minusinventory,
+			unitprice,
+			talprice,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{user.id},
+			#{product.id},
+			#{minusinventory},
+			#{unitprice},
+			#{talprice},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE tal_product_out SET 	
+			product = #{product.id},
+			minusinventory = #{minusinventory},
+			unitprice = #{unitprice},
+			talprice = #{talprice},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE tal_product_out SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

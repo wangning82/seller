@@ -3,7 +3,7 @@
 <%@ attribute name="input" type="java.lang.String" required="true" description="输入框"%>
 <%@ attribute name="type" type="java.lang.String" required="true" description="files、images、flash、thumb"%>
 <%@ attribute name="uploadPath" type="java.lang.String" required="true" description="打开文件管理的上传路径"%>
-<%@ attribute name="selectMultiple" type="java.lang.Boolean" required="false" description="是否允许多选"%>
+<%@ attribute name="selectMultiple" type="java.lang.Boolean" required="true" description="是否允许多选"%>
 <%@ attribute name="readonly" type="java.lang.Boolean" required="false" description="是否查看模式"%>
 <%@ attribute name="maxWidth" type="java.lang.String" required="false" description="最大宽度"%>
 <%@ attribute name="maxHeight" type="java.lang.String" required="false" description="最大高度"%>

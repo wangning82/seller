@@ -11,3 +11,4 @@
 <c:set var="ctx" value="${pageContext.request.contextPath}${fns:getAdminPath()}"/>
 <c:set var="ctxc" value="${pageContext.request.contextPath}${fns:getClientPath()}"/>
 <c:set var="ctxStatic" value="${pageContext.request.contextPath}/static"/>
+<c:set var="ctxUser" value="${pageContext.request.contextPath}/views"/>

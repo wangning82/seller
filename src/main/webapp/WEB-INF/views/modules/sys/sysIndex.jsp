@@ -213,7 +213,7 @@
 	    <div class="container-fluid">
 			<div id="content" class="row-fluid">
 				<div id="left">
-					<div style="background: url(${ctxStatic}/aquote/images/touxiang.jpg);background-size: cover;height:120px;width: 160px"></div>
+					<div style="background: url(${fns:getUser().photo});background-size: cover;height:120px;width: 160px"></div>
 					<div style="padding-left: 30px;height: 30px;background-color: ivory" >
 						<li id="userInfo" class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" title="个人信息">您好, ${fns:getUser().name}&nbsp;<span id="notifyNum" class="label label-info hide"></span></a>
@@ -222,7 +222,7 @@
 							<li><a href="${ctx}/sys/user/modifyPwd" target="mainFrame"><i class="icon-lock"></i>&nbsp;  修改密码</a></li>
 							<li><a href="${ctx}/oa/oaNotify/self" target="mainFrame"><i class="icon-bell"></i>&nbsp;  我的通知 <span id="notifyNum2" class="label label-info hide"></span></a></li>
 							<li style="display: none;">
-								<a href="${ctx}/taluser/talUser/list" target="mainFrame" onclick="javascript:addTab($(this), true, false);"><i class="icon-lock"></i>&nbsp; 首页</a>
+								<a href="${ctx}/productinven/talProduct/formindex" target="mainFrame" onclick="javascript:addTab($(this), true, false);"><i class="icon-lock"></i>&nbsp; 首页</a>
 							</li>
 						</ul>
 						</li>
